@@ -21,8 +21,8 @@ public class CameraMovement : MonoBehaviour
         x = 59.5f;
         y = 368f;
         z = -18.2f;
-        sv_speed = 0.1f;
-        ov_speed = 1f;
+        sv_speed = 0.05f;
+        ov_speed = 0.5f;
         overview = true;
     }
 
@@ -47,7 +47,7 @@ public class CameraMovement : MonoBehaviour
         // Look left/right in street view
         if (!overview)
         {
-            Vector3 look = new Vector3(0f, 6f*sv_speed, 0f);
+            Vector3 look = new Vector3(0f, 10f*sv_speed, 0f);
             if(Input.GetKey("e"))
                 this.transform.eulerAngles = transform.eulerAngles + look;
             else if(Input.GetKey("q"))
@@ -70,6 +70,7 @@ public class CameraMovement : MonoBehaviour
             {
                 this.transform.position = new Vector3(x, 8f, z);
                 this.transform.rotation = Quaternion.Euler(0f, -67.79f, 0f);
+               // GameObject.Find("Text_sphere").transform.rotation = Quaternion.Euler(0f, -67.79f, 0f);
             }
             else
             {
