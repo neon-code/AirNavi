@@ -60,10 +60,10 @@
             .colors {
                 background: linear-gradient(
                 to right,
-                #00ff95,
-                #00c500,
-                #dbdf00,
-                #ffa600,
+                #00ffbf,
+                #00e700,
+                #ffee00,
+                #ffc400,
                 #ff3c00,
                 #a00000
                 );
@@ -102,6 +102,12 @@
               <div class="label">80+</div>
             </div>
           </div>
+
+          <div class='session' id='sliderbar'>
+            <h2>Hour: <label id='active-date'>08/03/2021</label></h2>
+            <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12' />
+          </div>
+          
           </div>
     </body>
 
@@ -115,12 +121,15 @@
         });
 
         map.on('load', function() {
+            var filterDay = ['==', ['string', ['get', 'date']], 'placeholder'];
+
+
         map.addLayer({
             id: 'collisions',
             type: 'circle',
             source: {
             type: 'geojson',
-            data: './sterik.geojson' // replace this with the url of your own geojson
+            data: './sthlm.geojson' // replace this with the url of your own geojson
             },
             paint: {
             'circle-radius': [
@@ -143,9 +152,19 @@
                 60, '#ff3c00',
                 80, '#a00000'
             ],
-            'circle-opacity': 0.8
+            'circle-opacity': 0.4
             }
         });
         });
+
+        // update hour filter when the slider is dragged
+        document
+        .getElementById('slider')
+        .addEventListener('input', function (e) {
+            var date = parseInt(e.target.value);
+            // update the map
+            filterHour = ['==', ['string', ['get', 'date']], date];
+        });
+
     </script>
 </html>
