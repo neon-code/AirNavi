@@ -95,17 +95,39 @@
             <div class="row colors"></div>
             <div class="row labels">
               <div class="label">0</div>
-              <div class="label">10</div>
-              <div class="label">20</div>
-              <div class="label">40</div>
+              <div class="label">25</div>
+              <div class="label">50</div>
+              <div class="label">75</div>
+              <div class="label">100</div>
+              <div class="label">175+</div>
+            </div>
+
+            <h2>PM25</h2>
+            <div class="row colors"></div>
+            <div class="row labels">
+              <div class="label">0</div>
+              <div class="label">15</div>
+              <div class="label">30</div>
+              <div class="label">45</div>
               <div class="label">60</div>
-              <div class="label">80+</div>
+              <div class="label">110+</div>
+            </div>
+
+            <h2>NO2</h2>
+            <div class="row colors"></div>
+            <div class="row labels">
+              <div class="label">0</div>
+              <div class="label">50</div>
+              <div class="label">100</div>
+              <div class="label">200</div>
+              <div class="label">300</div>
+              <div class="label">400+</div>
             </div>
           </div>
 
           <div class='session' id='sliderbar'>
-            <h2>Hour: <label id='active-date'>08/03/2021</label></h2>
-            <input id='slider' class='row' type='range' min=0 max=55 step=1 value=0 />
+            <h2>Date: <label id='active-date'>08/03/2021</label></h2>
+            <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
           </div>
           
           </div>
@@ -121,6 +143,7 @@
         var mapData;
         var uniqueDateTime = new Set();
         var dateTimeArray = [];
+        var arrLength;
 
         mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
         var map = new mapboxgl.Map({
@@ -138,10 +161,12 @@
                 uniqueDateTime.add(feature.properties.date);
             });
                 dateTimeArray = [...uniqueDateTime];
-                console.log(dateTimeArray[0]);
-         
+                arrLength = dateTimeArray.length;
+        
+        //Initialize filter
         var filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[0]];
 
+        //PM10 layer
         map.addLayer({
             id: 'pm10',
             type: 'circle',
@@ -164,18 +189,89 @@
                 ['linear'],
                 ['number', ['get', 'pm10']],
                 0, '#00ff95',
-                10, '#00c500',
-                20, '#dbdf00',
-                40, '#ffa600',
+                25, '#00c500',
+                50, '#dbdf00',
+                75, '#ffa600',
+                100, '#ff3c00',
+                175, '#a00000'
+            ],
+            'circle-opacity': 0.2
+            },
+            'filter': ['all', filterDate]
+        });
+
+        //PM25 layer
+        map.addLayer({
+            id: 'pm25',
+            type: 'circle',
+            source: {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson' // replace this with the url of your own geojson
+            },
+            paint: {
+            'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['number', ['get', 'pm25']],
+                0,  //Floor value of the scale
+                34,  //Radius of floor value
+                12,  //Ceiling value of the scale
+                24  //Radius of Cieling Value
+            ],
+            'circle-color': [
+                'interpolate',
+                ['linear'],
+                ['number', ['get', 'pm25']],
+                0, '#00ff95',
+                15, '#00c500',
+                30, '#dbdf00',
+                45, '#ffa600',
                 60, '#ff3c00',
-                80, '#a00000'
+                110, '#a00000'
+            ],
+            'circle-opacity': 0.2
+            },
+            'filter': ['all', filterDate]
+        });
+
+        //NO2 layer
+        map.addLayer({
+            id: 'no2',
+            type: 'circle',
+            source: {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson' // replace this with the url of your own geojson
+            },
+            paint: {
+            'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['number', ['get', 'no2']],
+                0,  //Floor value of the scale
+                34,  //Radius of floor value
+                12,  //Ceiling value of the scale
+                24  //Radius of Cieling Value
+            ],
+            'circle-color': [
+                'interpolate',
+                ['linear'],
+                ['number', ['get', 'no2']],
+                0, '#00ff95',
+                50, '#00c500',
+                100, '#dbdf00',
+                200, '#ffa600',
+                300, '#ff3c00',
+                400, '#a00000'
             ],
             'circle-opacity': 0.4
             },
             'filter': ['all', filterDate]
         });
-
+        
+        //Filters to display current day information
         map.setFilter('pm10', ['==', ['string', ['get', 'date']], dateTimeArray[0]]);
+        map.setFilter('pm25', ['==', ['string', ['get', 'date']], dateTimeArray[0]]);
+        map.setFilter('no2', ['==', ['string', ['get', 'date']], dateTimeArray[0]]);
 
         // update Date filter when the slider is dragged
         document
@@ -183,11 +279,13 @@
         .addEventListener('input', function (e) {
             var selecteddate = parseInt(e.target.value);
             // update the map
-            filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[selecteddate]];
+            filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[arrLength -1 -selecteddate]];
             map.setFilter('pm10', ['all', filterDate]);
+            map.setFilter('pm25', ['all', filterDate]);
+            map.setFilter('no2', ['all', filterDate]);
 
             //Update slider date
-            document.getElementById('active-date').innerText = dateTimeArray[selecteddate];
+            document.getElementById('active-date').innerText = dateTimeArray[arrLength -1 -selecteddate];
         });
         });
         });
