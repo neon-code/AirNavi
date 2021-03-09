@@ -104,14 +104,16 @@
           </div>
 
           <div class='session' id='sliderbar'>
-            <h2>Hour: <label id='active-date'>08/03/2021</label></h2>
-            <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12' />
+            <h2>Hour: <label id='active-date'>02/02/2021</label></h2>
+            <input id='slider' class='row' type='range' min='0' max='23' step='1' value=0 />
           </div>
           
           </div>
     </body>
 
     <script>
+        var dates = ['11/02/2021'];
+
         mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
         var map = new mapboxgl.Map({
           container: 'map',
@@ -121,15 +123,15 @@
         });
 
         map.on('load', function() {
-            var filterDay = ['==', ['string', ['get', 'date']], 'placeholder'];
+            var filterDate = ['==', ['string', ['get', 'date']], '02/03/2021'];
 
 
         map.addLayer({
-            id: 'collisions',
+            id: 'pm10',
             type: 'circle',
             source: {
             type: 'geojson',
-            data: './sthlm.geojson' // replace this with the url of your own geojson
+            data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson' // replace this with the url of your own geojson
             },
             paint: {
             'circle-radius': [
@@ -137,7 +139,7 @@
                 ['linear'],
                 ['number', ['get', 'pm10']],
                 0,  //Floor value of the scale
-                4,  //Radius of floor value
+                34,  //Radius of floor value
                 12,  //Ceiling value of the scale
                 24  //Radius of Cieling Value
             ],
@@ -155,15 +157,20 @@
             'circle-opacity': 0.4
             }
         });
-        });
 
-        // update hour filter when the slider is dragged
+        map.setFilter('pm10', ['==', ['string', ['get', 'date']], '02/03/2021']);
+
+        // update Date filter when the slider is dragged
         document
         .getElementById('slider')
         .addEventListener('input', function (e) {
-            var date = parseInt(e.target.value);
-            // update the map
-            filterHour = ['==', ['string', ['get', 'date']], date];
+            var selecteddate = parseInt(e.target.value);
+            // update the map    
+            map.setFilter('pm10', ['==', ['string', ['get', 'date']], dates[selecteddate]]);
+
+            //Update slider date
+            document.getElementById('active-date').innerText = dates[selecteddate];
+        });
         });
 
     </script>
