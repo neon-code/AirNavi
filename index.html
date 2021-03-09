@@ -105,14 +105,14 @@
 
           <div class='session' id='sliderbar'>
             <h2>Hour: <label id='active-date'>02/02/2021</label></h2>
-            <input id='slider' class='row' type='range' min='0' max='23' step='1' value=0 />
+            <input id='slider' class='row' type='range' min=0 max=55 step=1 value=0 />
           </div>
           
           </div>
     </body>
 
     <script>
-        var dates = ['11/02/2021'];
+        var dates = ['08/03/21','07/03/21','06/03/21','05/03/21','04/03/21','03/03/21','02/03/21','01/03/21','28/02/21','27/02/21','26/02/21','25/02/21','24/02/21','23/02/21','22/02/21','21/02/21','20/02/21','19/02/21','18/02/21','17/02/21','16/02/21','15/02/21','14/02/21','13/02/21','12/02/21','11/02/21','10/02/21','09/02/21','08/02/21','07/02/21','06/02/21','05/02/21','04/02/21','03/02/21','02/02/21','01/02/21','31/01/21','29/01/21','28/01/21','27/01/21','26/01/21','25/01/21','24/01/21','23/01/21','22/01/21','21/01/21','20/01/21','19/01/21','18/01/21','17/01/21','16/01/21','15/01/21','14/01/21','13/01/21','12/01/21','11/01/21'];
 
         mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
         var map = new mapboxgl.Map({
@@ -123,8 +123,7 @@
         });
 
         map.on('load', function() {
-            var filterDate = ['==', ['string', ['get', 'date']], '02/03/2021'];
-
+            var filterDate = ['==', ['string', ['get', 'date']], dates[0]];
 
         map.addLayer({
             id: 'pm10',
@@ -158,7 +157,7 @@
             }
         });
 
-        map.setFilter('pm10', ['==', ['string', ['get', 'date']], '02/03/2021']);
+        map.setFilter('pm10', ['==', ['string', ['get', 'date']], '02/02/2021']);
 
         // update Date filter when the slider is dragged
         document
