@@ -1,7 +1,7 @@
 <html>
    <head>
       <meta charset="utf-8">
-      <title>Display a map on a webpage</title>
+      <title>AirNavi</title>
       <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
       <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
       <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
@@ -149,16 +149,21 @@
       </div>
 
       <script>
-         // TO MAKE THE MAP APPEAR YOU MUST
-         // ADD YOUR ACCESS TOKEN FROM
-         // https://account.mapbox.com
          var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
          mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
+         //set bounds
+         var bounds = [
+            [17.87084,59.24744],
+            [18.27879,59.40520]
+         ];
          var map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
             center: [18.07030,59.32495], // starting position [lng, lat]
-            zoom: 10// starting zoom
+            zoom: 12,    // starting zoom
+            maxBounds: bounds,
+            minZoom: 11,
+            maxZoom: 15
          });
 
          //Setting sliderbar visibility 0
