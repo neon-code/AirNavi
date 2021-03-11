@@ -227,7 +227,7 @@
                 <div class="box poor"></div> &nbspPoor <br>
             </div>
 
-            <img id="slblegend" src="slblegend.png"/>
+            <img id="slblegend" src="https://raw.githubusercontent.com/neon-code/AirNavi/main/slblegend.png"/>
 
             <div id="trafficInfo" style="display:none">Highlighted roads suffer from high traffic</div>
         </div>
@@ -322,8 +322,9 @@
                     });
                     dateTimeArray = [...uniqueDateTime];
                     pm10filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[0]];
-                    //Add PM10 history layer
+                    //Add PM history layers
                     addHistoricalPm10Layer();
+                    addHistoricalPm25Layer();
 
                     // update Date filter when the slider is dragged
                     document
@@ -331,11 +332,25 @@
                         .addEventListener('input', function (e) {
                             selecteddate = parseInt(e.target.value);
                             // update the map
-                            filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length - 1 - selecteddate]];
-                            map.setFilter('pm10Historical', ['all', filterDate]);
+                            pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length - 1 - selecteddate]];
+                            map.setFilter('pm10Historical', ['all', pm10filterdate]);
+                            map.setFilter('pm25Historical', ['all', pm10filterdate]);
                             //Update slider date
                             document.getElementById('active-date').innerText = dateTimeArray[dateTimeArray.length - 1 - selecteddate];
                         });
+
+                    //Update when pollutant type is selected
+                    document.getElementById('filters').addEventListener('change', function(e) {
+                        var filterpollutant = e.target.value;
+
+                        if (filterpollutant === 'pm10button') {
+                            map.setLayoutProperty('pm10Historical', 'visibility', 'visible');
+                            map.setLayoutProperty('pm25Historical', 'visibility', 'none');
+                        } else {
+                            map.setLayoutProperty('pm10Historical', 'visibility', 'none');
+                            map.setLayoutProperty('pm25Historical', 'visibility', 'visible');
+                        }
+                    });
 
                 });
         });
@@ -550,6 +565,65 @@
             });
         }
 
+        //History PM2.5
+        function addHistoricalPm25Layer() {
+            //Heatmap
+            map.addLayer({
+                id: 'pm25Historical',
+                type: 'heatmap',
+                source: 'sthlm',
+                maxzoom: 20,
+                layout: {
+                    "visibility": "none"
+                },
+                paint: {
+                    // increase weight as diameter breast height increases
+                    'heatmap-weight': {
+                        property: 'pm25',
+                        type: 'exponential',
+                        stops: [
+                            [1, 0],
+                            [80, 1]
+                        ]
+                    },
+                    // increase intensity as zoom level increases
+                    'heatmap-intensity': {
+                        stops: [
+                            [5, 1],
+                            [18, 2.5]
+                        ]
+                    },
+                    // assign color values be applied to points depending on their density
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0.0, 'rgba(0,222,239,0)',
+                        0.09, '#00E700',
+                        0.17, '#FFEE00',
+                        0.20, '#ffbb00',
+                        0.25, '#FF3C00',
+                        0.3, '#A00000'
+                    ],
+                    // increase radius as zoom increases
+                    'heatmap-radius': {
+                        stops: [
+                            [7, 3],
+                            [18, 200]
+                        ]
+                    },
+                    // decrease opacity to transition into the circle layer
+                    'heatmap-opacity': {
+                        default: 0.5,
+                        stops: [
+                            [14, 0.5],
+                            [20, 0.3]
+                        ]
+                    },
+                }
+            });
+        }
+
 
         //Setting sliderbar, radios and legends to visibility 0
         var barvisibility = document.getElementById("sliderbar");
@@ -596,6 +670,7 @@
                     }
                     //Disable the history layer as well
                     map.setLayoutProperty('pm10Historical', 'visibility', 'none');
+                    map.setLayoutProperty('pm25Historical', 'visibility', 'none');
                     document.getElementsByTagName('a')[i].className = '';
 
                     //Disable slider
@@ -677,8 +752,8 @@
         link.title = 'viewHistory';
 
         link.onclick = function (e) {
-            //var clickedLayer = this.textContent.toLowerCase();
             var clickedLayer = 'pm10Historical'
+            document.getElementById("pm10button").checked = true;
             e.preventDefault();
             e.stopPropagation();
 
@@ -729,6 +804,7 @@
             }
 
             //set map
+            map.setFilter('pm25Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length - 1 - selecteddate]]);
             map.setFilter('pm10Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length - 1 - selecteddate]]);
         };
 
