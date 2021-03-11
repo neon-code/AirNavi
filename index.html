@@ -26,7 +26,8 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
          }
          #menu {
-         background: #fff;
+         background: rgba(255,255,255,0.7);
+         backdrop-filter: blur(8px);
          position: absolute;
          z-index: 1;
          right: 10px;
@@ -73,12 +74,14 @@
             text-decoration: none;
             color: #2DC4B2;
             }
-            #console {
+
+            #consoleText {
             position: fixed;
             width: 240px;
             margin: 10px;
             padding: 10px 20px;
-            background-color: white;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
             bottom: 10px;
             }
             .session {
@@ -114,13 +117,11 @@
       <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
       <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-      <script src=''></script>
-      <script src=''></script>
       <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
       <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
       <div id="map"></div>
-
-      <div id="console">
+      
+      <div id="consoleText">
           <h1>Air Quality Data</h1>
           <p>
             Data:
@@ -131,7 +132,7 @@
             in Stockholm, year 2021
           </p>
           <div class="session">
-            <h2>PM10</h2>
+            <h2 id="active-layer-label">AQI</h2>
             <div class="row colors"></div>
             <div class="row labels">
               <div class="label">0</div>
@@ -169,6 +170,7 @@
          //Setting sliderbar visibility 0
          var barvisibility = document.getElementById("sliderbar");
          barvisibility.style.display = "none";
+         var selecteddate = 55;
          
          map.addControl(
          new MapboxGeocoder({
@@ -231,7 +233,7 @@
          document
          .getElementById('slider')
          .addEventListener('input', function (e) {
-            var selecteddate = parseInt(e.target.value);
+            selecteddate = parseInt(e.target.value);
             // update the map
             filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -1 -selecteddate]];
             map.setFilter('pm10Historical', ['all', filterDate]);
@@ -295,7 +297,7 @@
           "visibility" : "none"
          },
          paint: {
-           "raster-opacity": 0.5
+           "raster-opacity": 0.6
          }
          
          }
@@ -326,7 +328,7 @@
           "visibility" : "none"
          },
          paint: {
-           "raster-opacity": 0.5
+           "raster-opacity": 0.6
          }
          
          }
@@ -484,7 +486,6 @@
                for (var i = 0; i < toggleableLayerIds.length; i++) {
                   var id = toggleableLayerIds[i];
                   map.setLayoutProperty(id, 'visibility', 'none');
-                  console.log(id);
                   document.getElementsByTagName('a')[i].className = '';
                }
                //Disable the history layer as well
@@ -498,6 +499,7 @@
             //setting this layer active   
             this.className = 'active';
             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            document.getElementById('active-layer-label').innerText = this.title.toUpperCase();
          }
          };
          
@@ -540,6 +542,7 @@
                //setting this layer active
                this.className = 'active';
                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+               document.getElementById('active-layer-label').innerText = 'PM10';
 
                //Display slider
                var barvisibility = document.getElementById("sliderbar");
@@ -547,7 +550,7 @@
             }
 
             //set map
-            map.setFilter('pm10Historical', ['==', ['string', ['get', 'date']], dateTimeArray[0]]);
+            map.setFilter('pm10Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -1 -selecteddate]]);
          };
 
          var layers = document.getElementById('menu');
