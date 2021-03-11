@@ -108,6 +108,29 @@
                 display: inline-block;
                 text-align: center;
             }
+            .box {
+              float: left;
+              width: 15px;
+              height: 15px;
+              border: 1px solid rgba(0, 0, 0, .2);
+            }
+            .excellent{
+                background: #07cf00
+            }
+            .good{
+                background: #84ff00
+            }
+            .moderate{
+                background: #ffdd00
+            }
+            .low{
+                background: #ff6200
+            }
+            .poor{
+                background: #bd0000
+            }
+
+
       </style>
 
       <nav id="menu"></nav>
@@ -140,8 +163,8 @@
                 <div style="display:none" id="unit"> &microg/m<sup>3</sup></div>
                 
             </div>
-            <div class="row colors"></div>
-            <div class="row labels">
+            <div id="gradientBar" class="row colors" style="display:none"></div>
+            <div id="gradientLegend" class="row labels" style="display:none">
               <div class="label">0</div>
               <div class="label">25</div>
               <div class="label">50</div>
@@ -149,6 +172,14 @@
               <div class="label">100</div>
               <div class="label">125+</div>
             </div>
+            <div id="AQIlegend">
+               <div class="box excellent"></div> &nbspExcellent <br>      
+               <div class="box good"></div> &nbspGood <br>    
+               <div class="box moderate"></div> &nbspModerate <br>
+               <div class="box low"></div> &nbspLow <br>          
+               <div class="box poor"></div> &nbspPoor <br>          
+            </div>
+            <div id="trafficInfo" style="display:none">Highlighted roads suffer from high traffic</div>
           </div>
           <div class='session' id='sliderbar'>
             <h2>Date: <label id='active-date'>08/03/2021</label></h2>
@@ -510,15 +541,35 @@
             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
             document.getElementById('active-layer-label').innerText = this.title.toUpperCase();
             
-            // Display or disable unit
+            // Display or disable unit and legend
             if(this.title.toUpperCase().localeCompare("AQI") == 0 || 
-                this.title.toUpperCase().localeCompare("SLB-AQI") == 0|| 
-                this.title.toUpperCase().localeCompare("TRAFFIC") == 0){
+                this.title.toUpperCase().localeCompare("SLB-AQI") == 0){
+                
+                //Hide unit
                 document.getElementById("unit").style.display = "none";
-            }                   
-            else 
+                //Hide values under gradient
+                document.getElementById("gradientLegend").style.display = "none";
+                // Display color coding for AQI
+                document.getElementById("AQIlegend").style.display = "inline";
+                //Hide gradient bar
+                document.getElementById("gradientBar").style.display = "none";
+                //Hide traffic information
+                document.getElementById("trafficInfo").style.display = "none";
+            }
+            else if (this.title.toUpperCase().localeCompare("TRAFFIC") == 0){
+                document.getElementById("unit").style.display = "none";
+                document.getElementById("gradientLegend").style.display = "none";
+                document.getElementById("gradientBar").style.display = "none";
+                document.getElementById("AQIlegend").style.display = "none";
+                document.getElementById("trafficInfo").style.display = "inline";
+            }
+            else{
                 document.getElementById("unit").style.display = "inline";
-
+                document.getElementById("AQIlegend").style.display = "none";
+                document.getElementById("gradientLegend").style.display = "inline";
+                document.getElementById("gradientBar").style.display = "block";
+                document.getElementById("trafficInfo").style.display = "none";
+            }                
          }
          };
          
@@ -570,6 +621,13 @@
 
                //Display unit
                document.getElementById("unit").style.display = "inline";
+               //Disable AQI color coding
+               document.getElementById("AQIlegend").style.display = "none";
+               //Show gradient bar
+               document.getElementById("gradientBar").style.display = "block";
+               // Hide traffic information
+               document.getElementById("trafficInfo").style.display = "none";
+
             }
 
             //set map
