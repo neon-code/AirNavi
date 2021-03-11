@@ -134,7 +134,8 @@
           <div class="session">
             <div>     
                 <h2 style="display:inline" id="active-layer-label" >AQI</h2>
-                &microg/m<sup>3</sup>
+                <div style="display:none" id="unit"> &microg/m<sup>3</sup></div>
+                
             </div>
             <div class="row colors"></div>
             <div class="row labels">
@@ -505,6 +506,16 @@
             this.className = 'active';
             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
             document.getElementById('active-layer-label').innerText = this.title.toUpperCase();
+            
+            // Display or disable unit
+            if(this.title.toUpperCase().localeCompare("AQI") == 0 || 
+                this.title.toUpperCase().localeCompare("SLB-AQI") == 0|| 
+                this.title.toUpperCase().localeCompare("TRAFFIC") == 0){
+                document.getElementById("unit").style.display = "none";
+            }                   
+            else 
+                document.getElementById("unit").style.display = "inline";
+
          }
          };
          
@@ -536,6 +547,7 @@
                //Disable slider
                var barvisibility = document.getElementById("sliderbar");
                barvisibility.style.display = "none";
+
             } else {
                //Disable all other layers
                for (var i = 0; i < toggleableLayerIds.length; i++) {
@@ -552,6 +564,9 @@
                //Display slider
                var barvisibility = document.getElementById("sliderbar");
                barvisibility.style.display = "block";
+
+               //Display unit
+               document.getElementById("unit").style.display = "inline";
             }
 
             //set map
