@@ -170,6 +170,19 @@
          .mapboxgl-ctrl-geocoder input[type='text'] {
          text-align: center
          }
+         table, th, td {
+         border: 0.1px solid grey;
+         background: #efefef;
+         }
+         th, td {
+            padding: 4px;
+         }
+         th {
+         text-align: left;
+         }
+         table {
+            border-spacing: 0.5px;
+         }
       </style>
       <nav id="menu"></nav>
       <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
@@ -932,8 +945,9 @@
          // Change the cursor style as a UI indicator.
          map.getCanvas().style.cursor = 'pointer';
          var coordinates = e.features[0].geometry.coordinates.slice();
-         var description = "PM10: " + getItemData(e.features[0].geometry.coordinates).pm10 + " PM 2.5: " + getItemData(e.features[0].geometry.coordinates).pm25;
-         
+         //var description = "PM10: " + getItemData(e.features[0].geometry.coordinates).pm10 + " PM 2.5: " + getItemData(e.features[0].geometry.coordinates).pm25;
+         var description = " <table> <tr> <th>PM10</th><th>PM2.5</th></tr> <tr><td>" + getItemData(e.features[0].geometry.coordinates).pm10 + "</td> <td>" + getItemData(e.features[0].geometry.coordinates).pm25 +
+         "</td></tr></table>"
          // Ensure that if the map is zoomed out such that multiple
          // copies of the feature are visible, the popup appears
          // over the copy being pointed to.
