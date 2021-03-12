@@ -102,6 +102,19 @@
          backdrop-filter: blur(8px);
          bottom: 10px;
          }
+         table, th, td {
+         border: 0.1px solid grey;
+         background: #efefef;
+         }
+         th, td {
+         padding: 4px;
+         }
+         th {
+         text-align: left;
+         }
+         table {
+         border-spacing: 0.5px;
+         }
          .session {
          margin-bottom: 20px;
          }
@@ -169,19 +182,6 @@
          }
          .mapboxgl-ctrl-geocoder input[type='text'] {
          text-align: center
-         }
-         table, th, td {
-         border: 0.1px solid grey;
-         background: #efefef;
-         }
-         th, td {
-            padding: 4px;
-         }
-         th {
-         text-align: left;
-         }
-         table {
-            border-spacing: 0.5px;
          }
       </style>
       <nav id="menu"></nav>
@@ -659,6 +659,7 @@
                  e.stopPropagation();
          
                  var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+                 map.setLayoutProperty('places','visibility','none');
          
                  // toggle layer visibility by changing the layout object's visibility property
                  if (visibility === 'visible') {
@@ -762,10 +763,12 @@
          
              //Get status of history layer visibility
              var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+             var markerVisibility = map.getLayoutProperty('places', 'visibility');
          
              // toggle history visibility by changing the layout object's visibility property
              if (visibility === 'visible') {
                  map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                 map.setLayoutProperty('places','visibility','none');
                  this.className = '';
          
                  //Disable slider
@@ -784,6 +787,8 @@
                  //setting this layer active
                  this.className = 'active';
                  map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                 map.setLayoutProperty('places','visibility','visible');
+         
                  document.getElementById('active-layer-label').innerText = 'PM10';
          
                  //Display slider
@@ -903,7 +908,8 @@
          'layout': {
          'icon-image': 'custom-marker',
          'icon-allow-overlap': true,
-         'icon-size': 0.40
+         'icon-size': 0.40,
+         'visibility' : 'none'
          }
          });
          });
@@ -945,7 +951,8 @@
          // Change the cursor style as a UI indicator.
          map.getCanvas().style.cursor = 'pointer';
          var coordinates = e.features[0].geometry.coordinates.slice();
-         //var description = "PM10: " + getItemData(e.features[0].geometry.coordinates).pm10 + " PM 2.5: " + getItemData(e.features[0].geometry.coordinates).pm25;
+         //var description = "<b>PM10: </b>" + getItemData(e.features[0].geometry.coordinates).pm10 + "<br /><b>PM2.5: </b>" + getItemData(e.features[0].geometry.coordinates).pm25;
+         
          var description = " <table> <tr> <th>PM10</th><th>PM2.5</th></tr> <tr><td>" + getItemData(e.features[0].geometry.coordinates).pm10 + "</td> <td>" + getItemData(e.features[0].geometry.coordinates).pm25 +
          "</td></tr></table>"
          // Ensure that if the map is zoomed out such that multiple
