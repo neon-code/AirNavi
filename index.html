@@ -507,7 +507,7 @@
                          'visibility': 'none'
                      },
                      paint: {
-                         "raster-opacity": 0.7
+                         "raster-opacity": 0.6
                      }
                  },
                  "admin-1-boundary-bg"
@@ -537,7 +537,7 @@
                          "visibility": "none"
                      },
                      paint: {
-                         "raster-opacity": 0.7
+                         "raster-opacity": 0.6
                      }
          
                  }
@@ -568,7 +568,7 @@
                          "visibility": "none"
                      },
                      paint: {
-                         "raster-opacity": 0.7
+                         "raster-opacity": 0.6
                      }
          
                  }
@@ -628,7 +628,7 @@
                          "visibility": "none"
                      },
                      paint: {
-                         "raster-opacity": 0.7
+                         "raster-opacity": 0.6
                      }
                  },
                  "admin-1-boundary-bg"
@@ -1138,6 +1138,48 @@
          console.log('A load event occurred.');
          onMapLoad();
          });
+         
+         map.on('mouseenter', 'places', function (e) {
+             // Change the cursor style as a UI indicator.
+             map.getCanvas().style.cursor = 'pointer';
+             var coordinates = e.features[0].geometry.coordinates.slice();
+         
+             if (document.getElementById("sliderbar").style.display === "block") {
+                 if (document.getElementById("pm10button").checked == true) {
+                     pmValue = getItemData(e.features[0].geometry.coordinates).pm10; 
+                      if(pmValue == '0') {
+                         pmValue = "Not Available"
+                      }
+                     var description = "<b>PM10: </b>" + pmValue;                } else
+                 if (document.getElementById("pm25button").checked == true) {
+         pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
+                      if(pmValue == '0') {
+                         pmValue = "Not Available"
+                      }
+                     var description = "<b>PM2.5: </b>" + pmValue;                } else {
+                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                 }
+             } else {
+                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+             }
+         
+             // Ensure that if the map is zoomed out such that multiple
+             // copies of the feature are visible, the popup appears
+             // over the copy being pointed to.
+             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+             }
+         
+             // Populate the popup and set its coordinates
+             // based on the feature found.
+             popup.setLngLat(coordinates).setHTML(description).addTo(map);
+         });
+         
+         map.on('mouseleave', 'places', function () {
+             map.getCanvas().style.cursor = '';
+             popup.remove();
+         });
+         
          }
          else {
                                   map = new mapboxgl.Map({
@@ -1163,6 +1205,49 @@
          onMapLoad();
          });       //  addDirectionsLayers();
                          map.addControl(directions, 'top-left');
+                             map.on('mouseenter', 'places', function (e) {
+             // Change the cursor style as a UI indicator.
+             map.getCanvas().style.cursor = 'pointer';
+             var coordinates = e.features[0].geometry.coordinates.slice();
+         
+             if (document.getElementById("sliderbar").style.display === "block") {
+                 if (document.getElementById("pm10button").checked == true) {
+                     pmValue = getItemData(e.features[0].geometry.coordinates).pm10; 
+                      if(pmValue == '0') {
+                         pmValue = "Not Available"
+                      }
+                     var description = "<b>PM10: </b>" + pmValue;
+                 } else
+                 if (document.getElementById("pm25button").checked == true) {
+                     pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
+                      if(pmValue == '0') {
+                         pmValue = "Not Available"
+                      }
+                     var description = "<b>PM2.5: </b>" + pmValue;
+                 } else {
+                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                 }
+             } else {
+                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+             }
+         
+             // Ensure that if the map is zoomed out such that multiple
+             // copies of the feature are visible, the popup appears
+             // over the copy being pointed to.
+             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+             }
+         
+             // Populate the popup and set its coordinates
+             // based on the feature found.
+             popup.setLngLat(coordinates).setHTML(description).addTo(map);
+         });
+         
+         map.on('mouseleave', 'places', function () {
+             map.getCanvas().style.cursor = '';
+             popup.remove();
+         });
+         
            
          
          }
@@ -1172,6 +1257,8 @@
              inputs[i].onclick = switchLayer;
          }
          
+         
+         
          map.on('mouseenter', 'places', function (e) {
              // Change the cursor style as a UI indicator.
              map.getCanvas().style.cursor = 'pointer';
@@ -1179,11 +1266,19 @@
          
              if (document.getElementById("sliderbar").style.display === "block") {
                  if (document.getElementById("pm10button").checked == true) {
-                     var description = "<b>PM10: </b>" + getItemData(e.features[0].geometry.coordinates).pm10;
+                    pmValue = getItemData(e.features[0].geometry.coordinates).pm10; 
+                      if(pmValue == '0') {
+                         pmValue = "Not Available"
+                      }
+                     var description = "<b>PM10: </b>" + pmValue;
                  } else
                  if (document.getElementById("pm25button").checked == true) {
-                     var description = "<b>PM2.5: </b>" + getItemData(e.features[0].geometry.coordinates).pm25;
-                 } else {
+                     pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
+                      if(pmValue == '0') {
+                         pmValue = "Not Available"
+                      }
+                     var description = "<b>PM2.5: </b>" + pmValue;
+                                     } else {
                      var description = "Select <b>Historical Data for Particulate Matter</b> layer";
                  }
              } else {
