@@ -34,8 +34,8 @@
         onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
       <a href="#" class="w3-bar-item w3-button w3-padding-large">HOME</a>
       <a href="#DESCRIPTION" class="w3-bar-item w3-button w3-padding-large w3-hide-small">DESCRIPTION</a>
-      <a href="#ABOUT" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
       <a href="#PROJECT" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PROJECT</a>
+      <a href="#ABOUT" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
       <a href="https://neon-code.github.io/AirNavi/" target="_blank"
         class="w3-bar-item w3-button w3-padding-large w3-hide-small">DEMO</a>
       <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i
@@ -43,99 +43,117 @@
     </div>
   </div>
 
-  <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
-  <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-    <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">BAND</a>
-    <a href="#tour" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">TOUR</a>
-    <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTACT</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MERCH</a>
-  </div>
-
   <!-- Landing page -->
   <div class="w3-content" style="max-width:2000px;margin-top:46px">
     <a href="https://neon-code.github.io/AirNavi/">
-    <img src="https://raw.githubusercontent.com/neon-code/OSMtest/main/website/airnavi.png" style="width:100%">
-  </a>
+      <img src="https://raw.githubusercontent.com/neon-code/OSMtest/main/website/airnavi.png" style="width:100%">
+    </a>
   </div>
 
   <!-- Description -->
   <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="DESCRIPTION">
     <h2 class="w3-wide">DESCRIPTION</h2>
     <p class="w3-justify">
-        Particulate Matter (PM) is a type of pollutant that is present in the air.
-        PM is a very small class of pollutants and includes pollen, dust, smoke, fog and even rain.
-        It is measured in μg/m^3. According to this measurement, there are two types of PM values:
-        <br>
-        <b>PM10</b>: Matter that is 10 micrometers across. This is especially harmful for people suffering breathing problems, e.g. asthma.
-        PM10 since PM10 is formed primarily because of wear of road surfaces, for example due to studded tires during winter months [1].
-        <br>
-        <b>PM2.5</b>: Matter that is 2.5 micrometers across. Usually consists of gaseous matter, and can be harmful to people with cardiovascular diseases.
-        PM2.5 particles come mainly from various combustion and industrial processes [1].
-        <br>
-        <br>
+      Particulate Matter (PM) is a type of pollutant that is present in the air.
+      PM is a very small class of pollutants and includes pollen, dust, smoke, fog and even rain.
+      It is measured in μg/m^3. According to this measurement, there are two types of PM values:
+      <br>
+      <br>
+      <b>PM10</b>: Matter that is 10 micrometers across. This is especially harmful for people suffering breathing problems, e.g. asthma.
+      PM10 since PM10 is formed primarily because of wear of road surfaces, for example due to studded tires during winter months [1].
+      <br>
+      <br>
+      <b>PM2.5</b>: Matter that is 2.5 micrometers across. Usually consists of gaseous matter, and can be harmful to people with cardiovascular diseases.
+      PM2.5 particles come mainly from various combustion and industrial processes [1].
     </p>
-  </div>
-
-  <!-- The About Section -->
-  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="ABOUT">
-    <h2 class="w3-wide">ABOUT US</h2>
-    <p class="w3-justify">We are a team of Master's students from KTH Royal Institute of Technology. We have a combined history of front end and back end development, user testing and UI/UX design, 
-                            both academically and professionally. Using our combined backgrounds we have created AirNavi as part of the course IVIS21.</p>
-    <div class="imageDivAbout">
-      <div class="w3-third">
-        <img src="marcus2.png" class="responsive" alt="Marcus Hamilton" >
-        <h5> Marcus Hamilton <br /> <h6>hamilt@kth.com</h6></h5>
-                        Data management <br>
-            Front end <br>
-      </div>
-      <div class="w3-third">
-          <img src="sid.jpg" class="responsive" alt="Siddharth Mishra">
-          <h5> Siddharth Mishra <br /> <h6>sidmis@kth.com</h6></h5>
-          Front end <br />
-          UI
-      </div>
-      <div class="w3-third">
-          <img src="priyanka.jpeg" class="responsive" alt="Priyanka Syal">
-          <h5> Priyanka Syal <br /> <h6>syal@kth.com</h6></h5>
-          Back end <br />
-          Front end <br />
-          Data collection
-      </div>
-    </div>
   </div>
 
   <!-- The about project section -->
   <div class="w3-black" id="PROJECT">
-      <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-          <h2 class="w3-wide w3-center">ABOUT THE PROJECT</h2>
-          <p class="w3-justify">AirNavi visualizes up-to-date and historical pollution data to allow for safer travelling and route planning. Heatmaps are from Breezometer and PM10 are from SLB</p>
-          <h4>LEARNING OBJECTIVES</h4>
-          <p class="w3-justify">We sure learned a lot</p>
-          <h4>CITATIONS, REFERENCES DATA SOURCES</h4>
-          [1] <a href="https://www.naturvardsverket.se/Sa-mar-miljon/Klimat-och-luft/Luftfororeningar/Partiklar/" target="_blank">Naturvårdsverket: Luftföreringar & Partiklar</a> (18-03-2021) <br /><br />
-          Overview, zoom etc.<br /> 
-          [2] Ben Shneiderman, The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations, In Interactive Technologies,
-          The Craft of Information Visualization, Morgan Kaufmann, 2003, Pages 364-371, <a href=https://doi.org/10.1016/B978-155860915-0/50046-9>DOI</a> <br />
-          Layering of maps techniques <br /> <br />
-          [3] Lobo, María-Jesús, Emmanuel Pietriga, and Caroline Appert. "An evaluation of interactive map comparison techniques." Proceedings of the 33rd annual ACM conference on human factors in computing systems. 2015. <br /> <br />
+    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+      <h2 class="w3-wide w3-center">ABOUT THE PROJECT</h2>
+      <p class="w3-justify">AirNavi visualizes up-to-date and historical pollution data to allow for safer travelling
+        and route planning. Heatmaps are from Breezometer and PM10 are from SLB</p>
+      
+      <br>  
+      <h4>LEARNING OBJECTIVES:</h4>
+      <p class="w3-justify">We sure learned a lot</p>
+      
+      <br>
+      <h4>CITATIONS, REFERENCES DATA SOURCES:</h4>
+      <a href="https://www.naturvardsverket.se/Sa-mar-miljon/Klimat-och-luft/Luftfororeningar/Partiklar/"
+        target="_blank">Naturvårdsverket: Luftföreringar & Partiklar</a> (18-03-2021) <br /><br />
+      Overview, zoom etc.<br />
+      [1] Ben Shneiderman, The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations, In Interactive
+      Technologies,
+      The Craft of Information Visualization, Morgan Kaufmann, 2003, Pages 364-371, <a
+        href=https://doi.org/10.1016/B978-155860915-0/50046-9>DOI </a> <br />
+      Layering of maps techniques <br /> <br />
+      [2] Lobo, María-Jesús, Emmanuel Pietriga, and Caroline Appert. "An evaluation of interactive map comparison
+      techniques." Proceedings of the 33rd annual ACM conference on human factors in computing systems. 2015. 
+      <br>
+      
+      <br>
+      <h4>Data:</h4>
+      <a href="https://aqicn.org/data-platform/register/" target="_blank">AQICN CSV download</a> <br />
+      <a href="https://www.slb.nu/slbanalys/" target="_blank">SLB Stockholms luft- och bulleranalys</a> <br />
+      <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#breezometer-aqi"
+        target="_blank">Breezometer API</a>
+      <br>
+      <br>
 
-          Data: <br /> <br />
-          [4] <a href="https://aqicn.org/data-platform/register/" target="_blank">AQICN CSV download</a> <br />
-          [5] <a href="https://www.slb.nu/slbanalys/" target="_blank">SLB Stockholms luft- och bulleranalys</a> <br />
-          [6] <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#breezometer-aqi" target="_blank">Breezometer API</a>
-          <h4>VIDEO DEMONSTRATION</h4>
-          <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="VIDEO">
-              <iframe width=100% height="500" display:block src="https://www.youtube.com/embed/-6PAPYSVq64" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
+      <h4>VIDEO DEMONSTRATION:</h4>
+      <div class="w3-container w3-content w3-center w3-padding-54" style="max-width:800px" id="VIDEO">
+        <iframe width=100% height="500" display:block src="https://www.youtube.com/embed/-6PAPYSVq64" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
       </div>
+    </div>
   </div>
+
+  <!-- The About Us Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="ABOUT">
+    <h2 class="w3-wide">ABOUT US</h2>
+    <p class="w3-justify">We are a team of Master's students from KTH Royal Institute of Technology. We have a combined
+      history of front end and back end development, user testing and UI/UX design,
+      both academically and professionally. Using our combined backgrounds we have created AirNavi as part of the course
+      IVIS21.</p>
+    <div class="imageDivAbout">
+      <div class="w3-third">
+        <img src="marcus2.png" class="responsive" alt="Marcus Hamilton">
+        <h5> Marcus Hamilton <br />
+          <h6>hamilt@kth.com</h6>
+        </h5>
+        Data management <br>
+        Front end <br>
+      </div>
+      <div class="w3-third">
+        <img src="sid.jpg" class="responsive" alt="Siddharth Mishra">
+        <h5> Siddharth Mishra <br />
+          <h6>sidmis@kth.com</h6>
+        </h5>
+        Front end <br />
+        UI
+      </div>
+      <div class="w3-third">
+        <img src="priyanka.jpeg" class="responsive" alt="Priyanka Syal">
+        <h5> Priyanka Syal <br />
+          <h6>syal@kth.com</h6>
+        </h5>
+        Back end <br />
+        Front end <br />
+        Data collection
+      </div>
+    </div>
+  </div>
+
 
   <!-- End Page Content -->
   </div>
 
   <!-- Footer -->
-  <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
-
+  <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-small">
+    <p class="w3-justify w3-center">© Made with ❤️ and ☕ at KTH, Stockholm</p>
   </footer>
 
   <script>
