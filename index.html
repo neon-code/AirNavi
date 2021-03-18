@@ -45,7 +45,7 @@
         }
 
         .marker {
-            background-image: url('https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png');
+            background-image: url('https://raw.githubusercontent.com/priyankasyal/airnavi.github.io/main/Group%201%20(1).png');
             background-size: cover;
             width: 50px;
             height: 50px;
@@ -220,7 +220,7 @@
             Data: <br>
             <a href="https://www.slb.nu/slbanalys/luftfororeningskartor/">PM10,</a>
             <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#overview">
-                AQI, PM2.5 and traffic pollution
+                AQI and PM2.5
             </a>
             values in Stockholm, year 2021
         </p>
@@ -328,6 +328,7 @@
             addAqiSlbLayer();
             addMarkerSource();
             addMarkerLayer();
+            map.setLayoutProperty('places','visibility','none');
 
             //Fetching file for heatmap data
             map.addSource('sthlm', {
@@ -690,6 +691,7 @@
                 e.stopPropagation();
 
                 var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+                map.setLayoutProperty('places','visibility','none');
 
                 // toggle layer visibility by changing the layout object's visibility property
                 if (visibility === 'visible') {
@@ -790,10 +792,14 @@
 
             //Get status of history layer visibility
             var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            var markerVisibility = map.getLayoutProperty('places', 'visibility');
+
 
             // toggle history visibility by changing the layout object's visibility property
             if (visibility === 'visible') {
                 map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                map.setLayoutProperty('places','visibility','none');
+
                 this.className = '';
 
                 //Disable slider
@@ -812,6 +818,8 @@
                 //setting this layer active
                 this.className = 'active';
                 map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                map.setLayoutProperty('places','visibility','visible');
+
                 document.getElementById('active-layer-label').innerText = 'PM10';
 
                 //Display slider
@@ -850,7 +858,7 @@
 
         function addMarkerSource() {
             map.loadImage(
-                'https://raw.githubusercontent.com/priyankasyal/airnavi.github.io/main/Group%201%20(1).png',
+                'https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png',
                 // Add an image to use as a custom marker
                 function (error, image) {
                     if (error) throw error;
@@ -935,7 +943,8 @@
                         'layout': {
                             'icon-image': 'custom-marker',
                             'icon-allow-overlap': true,
-                            'icon-size': 0.40
+                            'icon-size': 0.40,
+                            'visibility' : 'none'
                         }
                     });
                 });
