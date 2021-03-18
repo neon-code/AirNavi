@@ -56,7 +56,7 @@
     <p class="w3-justify">
       Particulate Matter (PM) is a type of pollutant that is present in the air.
       PM is a very small class of pollutants and includes pollen, dust, smoke, fog and even rain.
-      It is measured in μg/m^3. According to this measurement, there are two types of PM values:
+      It is measured in μg/m<sup>3</sup>. According to this measurement, there are two types of PM values:
       <br>
       <br>
       <b>PM10</b>: Matter that is 10 micrometers across. This is especially harmful for people suffering breathing problems, e.g. asthma.
@@ -72,39 +72,42 @@
   <div class="w3-black" id="PROJECT">
     <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
       <h2 class="w3-wide w3-center">ABOUT THE PROJECT</h2>
-      <p class="w3-justify">AirNavi visualizes up-to-date and historical pollution data to allow for safer travelling
-        and route planning. Heatmaps are from Breezometer and PM10 are from SLB</p>
-      
-      <br>  
-      <h4>LEARNING OBJECTIVES:</h4>
-      <p class="w3-justify">We sure learned a lot</p>
-      
-      <br>
-      <h4>CITATIONS, REFERENCES DATA SOURCES:</h4>
-      <a href="https://www.naturvardsverket.se/Sa-mar-miljon/Klimat-och-luft/Luftfororeningar/Partiklar/"
-        target="_blank">Naturvårdsverket: Luftföreringar & Partiklar</a> (18-03-2021) <br /><br />
-      Overview, zoom etc.<br />
-      [1] Ben Shneiderman, The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations, In Interactive
+      <p class="w3-justify">
+          AirNavi visualizes up-to-date and historical pollution data to allow for safer travelling and route planning. AirNavi combines data from different sources to achieve the different interactable layers. The layers can be toggled on and off, and one at a time, without affecting the underlying map orientation. AirNavi uses the Translucent Overlay [3] technique to display each layer, in order to achieve clarity by making both the map and the pollution visible and manageable.
+          <br>
+          <br>
+          This data is visualized in the form of heatmaps, which provides a clear overview of where the concentration of pollutants is the most. The user can zoom to see the heatmaps in detail over the region of Stockholm, and compare it with the legend provided to decide if the air quality is healthy or not.
+          <br>
+          <br>
+          For the historical data, the user can filter on dates and select either PM10 or PM2.5 values. Details on the numeric value of these pollutants can be provided on demand if the user chooses to hover over the six data collection points, marked with the (i) icon. This follows the mantra “Overview first, zoom and filter, then details-on-demand” made famous by Shneiderman [2]
+
+          <br /><br />
+          Realtime AQI heatmaps are provided through the Breezometer API [6].
+          Historical data is provided by AQICN which allows users to download recorded data of physical sensors in Stockholm, managed by SLB [5].
+      </p>
+        <br />
+      <h4>REFERENCES AND DATA SOURCES</h4>
+      [1] <a href="https://www.naturvardsverket.se/Sa-mar-miljon/Klimat-och-luft/Luftfororeningar/Partiklar/"
+        target="_blank">Naturvårdsverket: Luftföreringar & Partiklar</a> (18-03-2021) <br />
+      [2] Ben Shneiderman, The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations, In Interactive
       Technologies,
       The Craft of Information Visualization, Morgan Kaufmann, 2003, Pages 364-371, <a
         href=https://doi.org/10.1016/B978-155860915-0/50046-9>DOI </a> <br />
-      Layering of maps techniques <br /> <br />
-      [2] Lobo, María-Jesús, Emmanuel Pietriga, and Caroline Appert. "An evaluation of interactive map comparison
+      [3] Lobo, María-Jesús, Emmanuel Pietriga, and Caroline Appert. "An evaluation of interactive map comparison
       techniques." Proceedings of the 33rd annual ACM conference on human factors in computing systems. 2015. 
       <br>
-      
-      <br>
-      <h4>Data:</h4>
-      <a href="https://aqicn.org/data-platform/register/" target="_blank">AQICN CSV download</a> <br />
-      <a href="https://www.slb.nu/slbanalys/" target="_blank">SLB Stockholms luft- och bulleranalys</a> <br />
-      <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#breezometer-aqi"
+
+      <h5>Data</h5>
+      [4] <a href="https://aqicn.org/data-platform/register/" target="_blank">AQICN CSV download</a> <br />
+      [5] <a href="https://www.slb.nu/slbanalys/" target="_blank">SLB Stockholms luft- och bulleranalys</a> <br />
+      [6] <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#breezometer-aqi"
         target="_blank">Breezometer API</a>
       <br>
       <br>
 
-      <h4>VIDEO DEMONSTRATION:</h4>
+      <h4>VIDEO DEMONSTRATION</h4>
       <div class="w3-container w3-content w3-center w3-padding-54" style="max-width:800px" id="VIDEO">
-        <iframe width=100% height="500" display:block src="https://www.youtube.com/embed/-6PAPYSVq64" frameborder="0"
+        <iframe width=100% height="500" display:block src="https://www.youtube.com/watch?v=6umbv5nAFdI&ab_channel=SIDX" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
