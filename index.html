@@ -451,9 +451,6 @@
                     //Animate the bar
                     function animateBar() {
                         document.getElementById("slider").value = barvalue;
-                        barvalue++;
-                        if (barvalue > 55)
-                            barvalue = 0;
 
                         selecteddate = parseInt(barvalue);
                         // update the map
@@ -464,6 +461,10 @@
                         //Update slider date
                         document.getElementById('active-date').innerText = dateTimeArray[
                             dateTimeArray.length - 1 - selecteddate];
+
+                        barvalue++;
+                        if (barvalue >= 56)
+                        barvalue = 0;
                     }
 
                     // update Date filter when the slider is dragged
@@ -551,10 +552,6 @@
                     //Animate the bar
                     function animateBar() {
                         document.getElementById("slider").value = barvalue;
-                        barvalue++;
-                        if (barvalue > 55)
-                            barvalue = 0;
-
                         selecteddate = parseInt(barvalue);
 
                         // update the map
@@ -565,6 +562,10 @@
                         //Update slider date
                         document.getElementById('active-date').innerText = dateTimeArray[
                             dateTimeArray.length - 1 - selecteddate];
+
+                        barvalue++;
+                        if (barvalue >= 56)
+                        barvalue = 0;
                     }
 
                     // update Date filter when the slider is dragged
