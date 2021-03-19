@@ -1,16 +1,16 @@
 <html>
-	<head>
-		<meta charset="utf-8">
-			<title>AirNavi</title>
-			<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-				<link rel="shortcut icon" href="https://raw.githubusercontent.com/neon-code/AirNavi/main/airnavi_logo%5B1%5D.png" />
-				<link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
-					<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-					<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
-					<link rel='stylesheet'
+   <head>
+      <meta charset="utf-8">
+      <title>AirNavi</title>
+      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+      <link rel="shortcut icon" href="https://raw.githubusercontent.com/neon-code/AirNavi/main/airnavi_logo%5B1%5D.png" />
+      <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
+      <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+      <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+      <link rel='stylesheet'
          href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css'
          type='text/css' />
-					<style>
+      <style>
          body {
          margin: 0;
          padding: 0;
@@ -37,9 +37,9 @@
          left:300px;
          }
       </style>
-				</head>
-				<body>
-					<style>
+   </head>
+   <body>
+      <style>
          /* Body for the slider and legend */
          body {
          margin: 0;
@@ -182,102 +182,89 @@
          text-align: center
          }
          #navigate {
-                 position: absolute;
-    padding: 10px;
-    font-family: 'Open Sans', sans-serif;
-    top: 20px;
-    left: 20px;
-    z-index: 1;
-      cursor:pointer;
-
-
+         position: absolute;
+         padding: 10px;
+         font-family: 'Open Sans', sans-serif;
+         top: 20px;
+         left: 20px;
+         z-index: 1;
+         cursor:pointer;
          }
       </style>
-					<nav id="menu"></nav>
-					<button id="navigate" onclick="navigateMap()">Navigate</button>
-					<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
-					<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-					<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-					<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-					<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-					<link rel="stylesheet"
+      <nav id="menu"></nav>
+      <button id="navigate" onclick="navigateMap()">Navigate</button>
+      <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+      <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+      <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+      <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+      <link rel="stylesheet"
          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
          type="text/css">
-						<div id="map"></div>
-						<div id="baseLayerMenu">
-							<input id="satellite-streets-v11" type="radio" name="rtoggle" value="satellite" >
-								<!-- See a list of Mapbox-hosted public styles at https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-								<label for="satellite-streets-v11">Satellite View</label>
-								<input id="light-v10" type="radio" name="rtoggle" value="light">
-									<label for="light-v10">Light View</label>
-									<input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
-										<label for="streets-v11">Street View</label>
-									</div>
-									<div id="consoleText">
-										<h1>Air Quality Data</h1>
-										<p>
-            Data: 
-											<br>
-												<a href="https://www.slb.nu/slbanalys/luftfororeningskartor/">PM10,</a>
-												<a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#overview">
+      <div id="map"></div>
+      <div id="baseLayerMenu">
+         <input id="satellite-streets-v11" type="radio" name="rtoggle" value="satellite" >
+         <!-- See a list of Mapbox-hosted public styles at https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+         <label for="satellite-streets-v11">Satellite View</label>
+         <input id="light-v10" type="radio" name="rtoggle" value="light">
+         <label for="light-v10">Light View</label>
+         <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+         <label for="streets-v11">Street View</label>
+      </div>
+      <div id="consoleText">
+         <h1>Air Quality Data</h1>
+         <p>
+            Data: <br>
+            <a href="https://www.slb.nu/slbanalys/luftfororeningskartor/">PM10,</a>
+            <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#overview">
             AQI and PM2.5
             </a>
             values in Stockholm, year 2021
-         
-											</p>
-											<div class="session">
-												<div>
-													<h2 style="display:inline" id="active-layer-label">AQI</h2>
-													<div style="display:none" id="unit"> &microg/m
-														<sup>3</sup>
-													</div>
-												</div>
-												<div id="gradientBar" class="row colors" style="display:block"></div>
-												<div id="gradientLegend" class="row labels" style="display:none">
-													<div class="label">0</div>
-													<div class="label">5</div>
-													<div class="label">10</div>
-													<div class="label">15</div>
-													<div class="label">20</div>
-													<div class="label">25+</div>
-												</div>
-												<div id="AQIlegend">
-													<div class="box excellent"></div>
-               &nbspExcellent 
-													<br>
-														<div class="box good"></div>
-               &nbspGood 
-														<br>
-															<div class="box moderate"></div>
-               &nbspModerate 
-															<br>
-																<div class="box low"></div>
-               &nbspLow 
-																<br>
-																	<div class="box poor"></div>
-               &nbspPoor 
-																	<br>
-																	</div>
-																	<img id="slblegend" src="https://raw.githubusercontent.com/neon-code/AirNavi/main/slblegend.png" />
-																	<div id="trafficInfo" style="display:none">Highlighted roads suffer from high traffic</div>
-																</div>
-																<div class='session' id='sliderbar'>
-																	<h2>Date: 
-																		<label id='active-date'>08/03/2021</label>
-																	</h2>
-																	<input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
-																</div>
-																<div class="session" id='polutant'>
-																	<h2>Pollutant type</h2>
-																	<div class="row" id="filters">
-																		<input id="pm10button" type="radio" name="toggle" value="pm10button" checked="checked" />
-																		<label for="pm10button">PM10</label>
-																		<input id="pm25button" type="radio" name="toggle" value="pm25button" />
-																		<label for="pm25button">PM2.5</label>
-																	</div>
-																</div>
-															</div>
-															<script>
+         </p>
+         <div class="session">
+            <div>
+               <h2 style="display:inline" id="active-layer-label">AQI</h2>
+               <div style="display:none" id="unit"> &microg/m<sup>3</sup></div>
+            </div>
+            <div id="gradientBar" class="row colors" style="display:block"></div>
+            <div id="gradientLegend" class="row labels" style="display:none">
+               <div class="label">0</div>
+               <div class="label">5</div>
+               <div class="label">10</div>
+               <div class="label">15</div>
+               <div class="label">20</div>
+               <div class="label">25+</div>
+            </div>
+            <div id="AQIlegend">
+               <div class="box excellent"></div>
+               &nbspExcellent <br>
+               <div class="box good"></div>
+               &nbspGood <br>
+               <div class="box moderate"></div>
+               &nbspModerate <br>
+               <div class="box low"></div>
+               &nbspLow <br>
+               <div class="box poor"></div>
+               &nbspPoor <br>
+            </div>
+            <img id="slblegend" src="https://raw.githubusercontent.com/neon-code/AirNavi/main/slblegend.png" />
+            <div id="trafficInfo" style="display:none">Highlighted roads suffer from high traffic</div>
+         </div>
+         <div class='session' id='sliderbar'>
+            <h2>Date: <label id='active-date'>08/03/2021</label></h2>
+            <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
+         </div>
+         <div class="session" id='polutant'>
+            <h2>Pollutant type</h2>
+            <div class="row" id="filters">
+               <input id="pm10button" type="radio" name="toggle" value="pm10button" checked="checked" />
+               <label for="pm10button">PM10</label>
+               <input id="pm25button" type="radio" name="toggle" value="pm25button" />
+               <label for="pm25button">PM2.5</label>
+            </div>
+         </div>
+      </div>
+      <script>
          var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
          mapboxgl.accessToken =
              'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
@@ -363,7 +350,7 @@
          var selectedDate;
          var propertiesData = [];
          
-    
+         
          
          function onMapLoad() {  addMarkerSource();
              addMarkerLayer();
@@ -930,7 +917,7 @@
          
                  var layerList = document.getElementById('baseLayerMenu');
                  layerList.style.display = "inline";
-
+         
                  var navigateButton = document.getElementById('navigate');
                  navigateButton.style.display = "inline";
                  this.className = '';
@@ -953,7 +940,7 @@
          
                          var layerList = document.getElementById('baseLayerMenu');
                          layerList.style.display = "none";
-
+         
                  var navigateButton = document.getElementById('navigate');
                  navigateButton.style.display = "none";
          // var inputs = layerList.getElementsByTagName('input');
@@ -1168,7 +1155,7 @@
          console.log('A load event occurred.');
          onMapLoad();
                              setSelectedLayerVisible();
-
+         
          });
          
          map.on('mouseenter', 'places', function (e) {
@@ -1182,21 +1169,17 @@
                       if(pmValue == '0') {
                          pmValue = "Not Available"
                       }
-                     var description = "
-																<b>PM10: </b>" + pmValue;                } else
+                     var description = "<b>PM10: </b>" + pmValue;                } else
                  if (document.getElementById("pm25button").checked == true) {
          pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
                       if(pmValue == '0') {
                          pmValue = "Not Available"
                       }
-                     var description = "
-																<b>PM2.5: </b>" + pmValue;                } else {
-                     var description = "Select 
-																<b>Historical Data for Particulate Matter</b> layer";
+                     var description = "<b>PM2.5: </b>" + pmValue;                } else {
+                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
                  }
              } else {
-                 var description = "Select 
-																<b>Historical Data for Particulate Matter</b> layer";
+                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
              }
          
              // Ensure that if the map is zoomed out such that multiple
@@ -1215,12 +1198,12 @@
              map.getCanvas().style.cursor = '';
              popup.remove();
          });
-
+         
          
          }
          
          }
-
+         
          function navigateMap() {
             map = new mapboxgl.Map({
              container: 'map', // container id
@@ -1244,7 +1227,7 @@
          console.log('A load event occurred.');
          onMapLoad();
                              setSelectedLayerVisible();
-
+         
          });       //  addDirectionsLayers();
                          map.addControl(directions, 'top-left');
                              map.on('mouseenter', 'places', function (e) {
@@ -1258,23 +1241,19 @@
                       if(pmValue == '0') {
                          pmValue = "Not Available"
                       }
-                     var description = "
-																<b>PM10: </b>" + pmValue;
+                     var description = "<b>PM10: </b>" + pmValue;
                  } else
                  if (document.getElementById("pm25button").checked == true) {
                      pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
                       if(pmValue == '0') {
                          pmValue = "Not Available"
                       }
-                     var description = "
-																<b>PM2.5: </b>" + pmValue;
+                     var description = "<b>PM2.5: </b>" + pmValue;
                  } else {
-                     var description = "Select 
-																<b>Historical Data for Particulate Matter</b> layer";
+                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
                  }
              } else {
-                 var description = "Select 
-																<b>Historical Data for Particulate Matter</b> layer";
+                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
              }
          
              // Ensure that if the map is zoomed out such that multiple
@@ -1312,23 +1291,19 @@
                       if(pmValue == '0') {
                          pmValue = "Not Available"
                       }
-                     var description = "
-																<b>PM10: </b>" + pmValue;
+                     var description = "<b>PM10: </b>" + pmValue;
                  } else
                  if (document.getElementById("pm25button").checked == true) {
                      pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
                       if(pmValue == '0') {
                          pmValue = "Not Available"
                       }
-                     var description = "
-																<b>PM2.5: </b>" + pmValue;
+                     var description = "<b>PM2.5: </b>" + pmValue;
                                      } else {
-                     var description = "Select 
-																<b>Historical Data for Particulate Matter</b> layer";
+                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
                  }
              } else {
-                 var description = "Select 
-																<b>Historical Data for Particulate Matter</b> layer";
+                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
              }
          
              // Ensure that if the map is zoomed out such that multiple
@@ -1351,7 +1326,6 @@
          function setDescription() {
          
          }
-      
-															</script>
-														</body>
-													</html>
+      </script>
+   </body>
+</html>
