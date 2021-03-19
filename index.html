@@ -979,7 +979,7 @@
                 }
 
                 var layerList = document.getElementById('baseLayerMenu');
-                layerList.style.display = "inline";
+                layerList.style.display = "none";
 
                 var navigateButton = document.getElementById('navigate');
                 navigateButton.style.display = "none";
@@ -1010,11 +1010,6 @@
                 document.getElementById("slblegend").style.display = "inline";
 
             }
-
-            //setting this layer active
-
-
-
 
             //set map
             map.setFilter('pm25Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -
