@@ -341,8 +341,7 @@
          var selectedDate;
          var propertiesData = [];
          
-         
-         
+    
          
          function onMapLoad() {  addMarkerSource();
              addMarkerLayer();
@@ -1137,6 +1136,8 @@
          map.on('load', function() {
          console.log('A load event occurred.');
          onMapLoad();
+                             setSelectedLayerVisible();
+
          });
          
          map.on('mouseenter', 'places', function (e) {
@@ -1179,6 +1180,7 @@
              map.getCanvas().style.cursor = '';
              popup.remove();
          });
+
          
          }
          else {
@@ -1203,6 +1205,8 @@
                 map.on('load', function() {
          console.log('A load event occurred.');
          onMapLoad();
+                             setSelectedLayerVisible();
+
          });       //  addDirectionsLayers();
                          map.addControl(directions, 'top-left');
                              map.on('mouseenter', 'places', function (e) {
@@ -1248,7 +1252,7 @@
              popup.remove();
          });
          
-           
+
          
          }
          }
