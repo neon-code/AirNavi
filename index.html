@@ -223,6 +223,15 @@
             z-index: 1;
             cursor: pointer;
         }
+        #sliderbar {
+            position: fixed;
+            width: 60%;
+            margin-left: 300px;
+            padding: 10px 10px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+            bottom: 20px;
+        }
     </style>
 
     <nav id="menu"></nav>
@@ -288,10 +297,6 @@
             <img id="slblegend" src="https://raw.githubusercontent.com/neon-code/AirNavi/main/slblegend.png" />
             <div id="trafficInfo" style="display:none">Highlighted roads suffer from high traffic</div>
         </div>
-        <div class='session' id='sliderbar'>
-            <h2>Date: <label id='active-date'>08/03/2021</label></h2>
-            <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
-        </div>
         <div class="session" id='polutant'>
             <h2>Pollutant type</h2>
             <div class="row" id="filters">
@@ -307,6 +312,11 @@
                 sensors at the location.</p>
         </div>
     </div>
+    <div class='sliderbar' id='sliderbar'>
+        <h2>Date: <label id='active-date'>08/03/2021</label></h2>
+        <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
+    </div>
+    
     <script>
         var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
         mapboxgl.accessToken =
