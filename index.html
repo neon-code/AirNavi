@@ -182,13 +182,15 @@
          text-align: center
          }
          #navigate {
-         position: absolute;
-         padding: 10px;
-         font-family: 'Open Sans', sans-serif;
-         top: 20px;
-         left: 20px;
-         z-index: 1;
-         cursor:pointer;
+                 position: absolute;
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    top: 20px;
+    left: 20px;
+    z-index: 1;
+      cursor:pointer;
+
+
          }
       </style>
       <nav id="menu"></nav>
@@ -350,7 +352,7 @@
          var selectedDate;
          var propertiesData = [];
          
-         
+    
          
          function onMapLoad() {  addMarkerSource();
              addMarkerLayer();
@@ -917,7 +919,7 @@
          
                  var layerList = document.getElementById('baseLayerMenu');
                  layerList.style.display = "inline";
-         
+
                  var navigateButton = document.getElementById('navigate');
                  navigateButton.style.display = "inline";
                  this.className = '';
@@ -940,7 +942,7 @@
          
                          var layerList = document.getElementById('baseLayerMenu');
                          layerList.style.display = "none";
-         
+
                  var navigateButton = document.getElementById('navigate');
                  navigateButton.style.display = "none";
          // var inputs = layerList.getElementsByTagName('input');
@@ -1155,7 +1157,7 @@
          console.log('A load event occurred.');
          onMapLoad();
                              setSelectedLayerVisible();
-         
+
          });
          
          map.on('mouseenter', 'places', function (e) {
@@ -1198,12 +1200,12 @@
              map.getCanvas().style.cursor = '';
              popup.remove();
          });
-         
-         
-         }
+
          
          }
          
+         }
+
          function navigateMap() {
             map = new mapboxgl.Map({
              container: 'map', // container id
@@ -1227,7 +1229,7 @@
          console.log('A load event occurred.');
          onMapLoad();
                              setSelectedLayerVisible();
-         
+
          });       //  addDirectionsLayers();
                          map.addControl(directions, 'top-left');
                              map.on('mouseenter', 'places', function (e) {
