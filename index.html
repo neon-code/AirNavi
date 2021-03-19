@@ -223,6 +223,7 @@
             z-index: 1;
             cursor: pointer;
         }
+
         #sliderbar {
             position: fixed;
             width: 60%;
@@ -313,10 +314,11 @@
         </div>
     </div>
     <div class='sliderbar' id='sliderbar'>
-        <h2>Date: <label id='active-date'>08/03/2021</label></h2>
+        Date: <label id='active-date'>08/03/2021</label>
+        <button id="animate" style="display: inline; float:right; margin-bottom: 10px;">Play/Pause</button>
         <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
     </div>
-    
+
     <script>
         var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
         mapboxgl.accessToken =
@@ -403,6 +405,9 @@
         var pm10filterDate = ['==', ['string', ['get', 'date']], '00/00/00'];
         var selectedDate;
         var propertiesData = [];
+        var play = 0;
+        var barvalue = 0;
+        var bartimer;
 
 
 
@@ -443,11 +448,29 @@
                     addHistoricalPm10Layer();
                     addHistoricalPm25Layer();
 
+                    //Animate the bar
+                    function animateBar() {
+                        document.getElementById("slider").value = barvalue;
+                        barvalue++;
+                        if (barvalue > 55)
+                            barvalue = 0;
+
+                        selecteddate = parseInt(barvalue);
+                        // update the map
+                        pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
+                            dateTimeArray.length - 1 - selecteddate]];
+                        map.setFilter('pm10Historical', ['all', pm10filterdate]);
+                        map.setFilter('pm25Historical', ['all', pm10filterdate]);
+                        //Update slider date
+                        document.getElementById('active-date').innerText = dateTimeArray[
+                            dateTimeArray.length - 1 - selecteddate];
+                    }
+
                     // update Date filter when the slider is dragged
                     document
                         .getElementById('slider')
                         .addEventListener('input', function (e) {
-                            selecteddate = parseInt(e.target.value);
+                            selecteddate = barvalue = parseInt(e.target.value);
                             // update the map
                             pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
                                 dateTimeArray.length - 1 - selecteddate]];
@@ -457,6 +480,21 @@
                             document.getElementById('active-date').innerText = dateTimeArray[
                                 dateTimeArray.length - 1 - selecteddate];
                         });
+
+                    //When button is clicked animate every 800ms
+                    document.getElementById("animate").addEventListener("click", function () {
+                        if (play == 0) {
+                            bartimer = setInterval(animateBar, 800);
+                            document.getElementById("animate").innerHTML = "Pause";
+                            play = 1;
+                            animateBar();
+                        } else {
+                            play = 0;
+                            clearInterval(bartimer);
+                            document.getElementById("animate").innerHTML = "Play";
+                        }
+                    });
+
 
                     //Update when pollutant type is selected
                     document.getElementById('filters').addEventListener('change', function (e) {
@@ -510,11 +548,30 @@
                     addHistoricalPm10Layer();
                     addHistoricalPm25Layer();
 
+                    //Animate the bar
+                    function animateBar() {
+                        document.getElementById("slider").value = barvalue;
+                        barvalue++;
+                        if (barvalue > 55)
+                            barvalue = 0;
+
+                        selecteddate = parseInt(barvalue);
+
+                        // update the map
+                        pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
+                            dateTimeArray.length - 1 - selecteddate]];
+                        map.setFilter('pm10Historical', ['all', pm10filterdate]);
+                        map.setFilter('pm25Historical', ['all', pm10filterdate]);
+                        //Update slider date
+                        document.getElementById('active-date').innerText = dateTimeArray[
+                            dateTimeArray.length - 1 - selecteddate];
+                    }
+
                     // update Date filter when the slider is dragged
                     document
                         .getElementById('slider')
                         .addEventListener('input', function (e) {
-                            selecteddate = parseInt(e.target.value);
+                            selecteddate = barvalue = parseInt(e.target.value);
                             // update the map
                             pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
                                 dateTimeArray.length - 1 - selecteddate]];
@@ -524,6 +581,20 @@
                             document.getElementById('active-date').innerText = dateTimeArray[
                                 dateTimeArray.length - 1 - selecteddate];
                         });
+
+                    //When button is clicked animate every 800ms
+                    document.getElementById("animate").addEventListener("click", function () {
+                        if (play == 0) {
+                            bartimer = setInterval(animateBar, 800);
+                            play = 1;
+                            animateBar();
+                            document.getElementById("animate").innerHTML = "Pause";
+                        } else {
+                            play = 0;
+                            clearInterval(bartimer);
+                            document.getElementById("animate").innerHTML = "Play";
+                        }
+                    });
 
                     //Update when pollutant type is selected
                     document.getElementById('filters').addEventListener('change', function (e) {
@@ -541,11 +612,6 @@
                     });
                 });
         });
-
-        map.on('load', function () {
-            console.log('A load event occurred.');
-        });
-
 
 
         //Breezometer AQI
