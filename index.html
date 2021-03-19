@@ -249,13 +249,15 @@
     </div>
     <div id="consoleText">
         <h1>Air Quality Data</h1>
-        <p>
-            Data: <br>
-            <a href="https://www.slb.nu/slbanalys/luftfororeningskartor/">PM10,</a>
-            <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#overview">
+        <p style="font-size: 12px">
+            <a href="https://www.slb.nu/slbanalys/luftfororeningskartor/" target="_blank">PM10,</a>
+            <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#overview" target="_blank">
                 AQI and PM2.5
             </a>
-            values in Stockholm, year 2021
+            values in Stockholm, year 2021.
+            <br>
+            Read more about what is Particulate Matter (PM) and how it affects you
+            <a href="https://neon-code.github.io/AirNavi/website/index.html#DESCRIPTION" target="_blank">here.</a>
         </p>
         <div class="session">
             <div>
@@ -298,6 +300,11 @@
                 <input id="pm25button" type="radio" name="toggle" value="pm25button" />
                 <label for="pm25button">PM2.5</label>
             </div>
+        </div>
+        <div id="legendicon">
+            <img src="https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png" style="height: 12px" />
+            <p style="font-size: 11px; display: inline">Hover above this icon to get PM values, collected by SLB's
+                sensors at the location.</p>
         </div>
     </div>
     <script>
@@ -812,6 +819,7 @@
         document.getElementById("polutant").style.display = "none";
         var selecteddate = 55;
         document.getElementById("slblegend").style.display = "none";
+        document.getElementById("legendicon").style.display = "none";
 
         // enumerate ids of the toggleable layers
         var toggleableLayerIds = ['aqi', 'slb-aqi', 'pm2.5', 'slb-pm10'];
@@ -862,6 +870,7 @@
                     map.setLayoutProperty('pm10Historical', 'visibility', 'none');
                     map.setLayoutProperty('pm25Historical', 'visibility', 'none');
                     document.getElementsByTagName('a')[i].className = '';
+                    document.getElementById("legendicon").style.display = "none";
 
                     //Disable slider
                     var barvisibility = document.getElementById("sliderbar");
@@ -968,6 +977,7 @@
                 var barvisibility = document.getElementById("sliderbar");
                 barvisibility.style.display = "none";
                 document.getElementById("polutant").style.display = "none";
+                document.getElementById("legendicon").style.display = "none";
 
             } else {
                 selectedLayer = clickedLayer;
@@ -1008,6 +1018,7 @@
                 document.getElementById("trafficInfo").style.display = "none";
                 //Show SLB legend
                 document.getElementById("slblegend").style.display = "inline";
+                document.getElementById("legendicon").style.display = "block";
 
             }
 
@@ -1187,7 +1198,6 @@
                 );
                 // 
                 map.on('load', function () {
-                    console.log('A load event occurred.');
                     onMapLoad();
                     setSelectedLayerVisible();
 
@@ -1261,7 +1271,6 @@
             );
             // 
             map.on('load', function () {
-                console.log('A load event occurred.');
                 onMapLoad();
                 setSelectedLayerVisible();
 
