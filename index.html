@@ -1,1333 +1,1374 @@
 <html>
-   <head>
-      <meta charset="utf-8">
-      <title>AirNavi</title>
-      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-      <link rel="shortcut icon" href="https://raw.githubusercontent.com/neon-code/AirNavi/main/airnavi_logo%5B1%5D.png" />
-      <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
-      <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-      <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
-      <link rel='stylesheet'
-         href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css'
-         type='text/css' />
-      <style>
-         body {
-         margin: 0;
-         padding: 0;
-         }
-         #map {
-         position: absolute;
-         top: 0;
-         bottom: 0;
-         width: 100%;
-         }
-         #menu {
-         position: absolute;
-         background: #efefef;
-         padding: 10px;
-         font-family: 'Open Sans', sans-serif;
-         bottom: 25px;
-         }
-         #baseLayerMenu {
-         position: absolute;
-         background: #efefef;
-         padding: 10px;
-         font-family: 'Open Sans', sans-serif;
-         bottom: 20px;
-         left:300px;
-         }
-      </style>
-   </head>
-   <body>
-      <style>
-         /* Body for the slider and legend */
-         body {
-         margin: 0;
-         padding: 0;
-         font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
-         }
-         .marker {
-         background-image: url('https://raw.githubusercontent.com/priyankasyal/airnavi.github.io/main/Group%201%20(1).png');
-         background-size: cover;
-         width: 50px;
-         height: 50px;
-         border-radius: 50%;
-         cursor: pointer;
-         }
-         #menu {
-         background: rgba(255, 255, 255, 0.7);
-         backdrop-filter: blur(8px);
-         position: absolute;
-         z-index: 1;
-         right: 10px;
-         border-radius: 3px;
-         width: 240px;
-         border: 1px solid rgba(0, 0, 0, 0.4);
-         font-family: 'Open Sans', sans-serif;
-         cursor: pointer;
-         }
-         #menu a {
-         font-size: 13px;
-         color: #404040;
-         display: block;
-         margin: 0;
-         padding: 0;
-         padding: 10px;
-         text-decoration: none;
-         border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-         text-align: left;
-         }
-         #menu a:last-child {
-         border: none;
-         }
-         #menu a:hover {
-         background-color: #f8f8f8;
-         color: #404040;
-         }
-         #menu a.active {
-         background-color: #3887be;
-         color: #ffffff;
-         }
-         #menu a.active:hover {
-         background: #3074a4;
-         }
-         h1 {
-         font-size: 20px;
-         line-height: 30px;
-         }
-         h2 {
-         font-size: 14px;
-         line-height: 20px;
-         margin-bottom: 10px;
-         }
-         a {
-         text-decoration: none;
-         color: #2DC4B2;
-         }
-         #consoleText {
-         position: fixed;
-         width: 240px;
-         margin: 10px;
-         padding: 10px 20px;
-         background: rgba(255, 255, 255, 0.7);
-         backdrop-filter: blur(8px);
-         bottom: 10px;
-         }
-         .session {
-         margin-bottom: 20px;
-         }
-         .row {
-         height: 12px;
-         width: 100%;
-         }
-         /* Legend gradient colors */
-         .colors {
-         background: linear-gradient(to right,
-         #00ffbf,
-         #00E700,
-         #FFEE00,
-         #FFC400,
-         #FF3C00,
-         #A00000);
-         margin-bottom: 5px;
-         }
-         .label {
-         width: 15%;
-         display: inline-block;
-         text-align: center;
-         }
-         /* Legend box colors */
-         .box {
-         float: left;
-         width: 15px;
-         height: 15px;
-         border: 1px solid rgba(0, 0, 0, .2);
-         }
-         .excellent {
-         background: #07cf00
-         }
-         .good {
-         background: #84ff00
-         }
-         .moderate {
-         background: #ffdd00
-         }
-         .low {
-         background: #ff6200
-         }
-         .poor {
-         background: #bd0000
-         }
-         /* Legend for SLB */
-         .slb {
-         height: 12px;
-         width: 100%;
-         background: linear-gradient(to right,
-         #00ffbf,
-         #00E700,
-         #FFEE00,
-         #FFC400,
-         #FF3C00,
-         #A00000);
-         margin-bottom: 5px;
-         }
-         .mapboxgl-popup {
-         max-width: 200px;
-         }
-         .mapboxgl-popup-content {
-         text-align: left;
-         font-family: 'Open Sans', sans-serif;
-         }
-         .mapboxgl-ctrl-geocoder input[type='text'] {
-         text-align: center
-         }
-         #navigate {
-                 position: absolute;
-    padding: 10px;
-    font-family: 'Open Sans', sans-serif;
-    top: 20px;
-    left: 20px;
-    z-index: 1;
-      cursor:pointer;
 
+<head>
+    <meta charset="utf-8">
+    <title>AirNavi</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/neon-code/AirNavi/main/airnavi_logo%5B1%5D.png" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'>
+    </script>
+    <link rel='stylesheet'
+        href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css'
+        type='text/css' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-         }
-      </style>
-      <nav id="menu"></nav>
-      <button id="navigate" onclick="navigateMap()">Navigate</button>
-      <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
-      <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-      <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-      <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-      <link rel="stylesheet"
-         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
-         type="text/css">
-      <div id="map"></div>
-      <div id="baseLayerMenu">
-         <input id="satellite-streets-v11" type="radio" name="rtoggle" value="satellite" >
-         <!-- See a list of Mapbox-hosted public styles at https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-         <label for="satellite-streets-v11">Satellite View</label>
-         <input id="light-v10" type="radio" name="rtoggle" value="light">
-         <label for="light-v10">Light View</label>
-         <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
-         <label for="streets-v11">Street View</label>
-      </div>
-      <div id="consoleText">
-         <h1>Air Quality Data</h1>
-         <p>
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #menu {
+            position: absolute;
+            background: #efefef;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+            bottom: 25px;
+        }
+
+        #baseLayerMenu {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(6px);
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+            bottom: 25px;
+            right: 285px;
+        }
+    </style>
+</head>
+
+<body>
+    <style>
+        /* Body for the slider and legend */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+        }
+
+        .marker {
+            background-image: url('https://raw.githubusercontent.com/priyankasyal/airnavi.github.io/main/Group%201%20(1).png');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #menu {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            position: absolute;
+            z-index: 1;
+            right: 10px;
+            border-radius: 3px;
+            width: 240px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            font-family: 'Open Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        #menu a {
+            font-size: 13px;
+            color: #404040;
+            display: block;
+            margin: 0;
+            padding: 0;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            text-align: left;
+        }
+
+        #menu a:last-child {
+            border: none;
+        }
+
+        #menu a:hover {
+            background-color: #f8f8f8;
+            color: #404040;
+        }
+
+        #menu a.active {
+            background-color: #3887be;
+            color: #ffffff;
+        }
+
+        #menu a.active:hover {
+            background: #3074a4;
+        }
+
+        h1 {
+            font-size: 20px;
+            line-height: 30px;
+        }
+
+        h2 {
+            font-size: 14px;
+            line-height: 20px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2DC4B2;
+        }
+
+        #consoleText {
+            position: fixed;
+            width: 240px;
+            margin: 10px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            bottom: 10px;
+        }
+
+        .session {
+            margin-bottom: 20px;
+        }
+
+        .row {
+            height: 12px;
+            width: 100%;
+        }
+
+        /* Legend gradient colors */
+        .colors {
+            background: linear-gradient(to right,
+                    #00ffbf,
+                    #00E700,
+                    #FFEE00,
+                    #FFC400,
+                    #FF3C00,
+                    #A00000);
+            margin-bottom: 5px;
+        }
+
+        .label {
+            width: 15%;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Legend box colors */
+        .box {
+            float: left;
+            width: 15px;
+            height: 15px;
+            border: 1px solid rgba(0, 0, 0, .2);
+        }
+
+        .excellent {
+            background: #07cf00
+        }
+
+        .good {
+            background: #84ff00
+        }
+
+        .moderate {
+            background: #ffdd00
+        }
+
+        .low {
+            background: #ff6200
+        }
+
+        .poor {
+            background: #bd0000
+        }
+
+        /* Legend for SLB */
+        .slb {
+            height: 12px;
+            width: 100%;
+            background: linear-gradient(to right,
+                    #00ffbf,
+                    #00E700,
+                    #FFEE00,
+                    #FFC400,
+                    #FF3C00,
+                    #A00000);
+            margin-bottom: 5px;
+        }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+
+        .mapboxgl-popup-content {
+            text-align: left;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .mapboxgl-ctrl-geocoder input[type='text'] {
+            text-align: center
+        }
+
+        #navigate {
+            position: absolute;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+            top: 20px;
+            left: 20px;
+            z-index: 1;
+            cursor: pointer;
+        }
+    </style>
+
+    <nav id="menu"></nav>
+    <button id="navigate" onclick="navigateMap()">Navigate</button>
+    <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js">
+    </script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+        type="text/css">
+    <div id="map"></div>
+    <div id="baseLayerMenu">
+        <input id="light-v10" type="radio" name="rtoggle" value="light" checked="checked">
+        <label for="light-v10">Light View</label>
+        <br>
+        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+        <label for="streets-v11">Street View</label>
+        <br>
+        <input id="satellite-streets-v11" type="radio" name="rtoggle" value="satellite">
+        <label for="satellite-streets-v11">Satellite View</label>
+    </div>
+    <div id="consoleText">
+        <h1>Air Quality Data</h1>
+        <p>
             Data: <br>
             <a href="https://www.slb.nu/slbanalys/luftfororeningskartor/">PM10,</a>
             <a href="https://docs.breezometer.com/api-documentation/heatmap-tile-overlay/v1/#overview">
-            AQI and PM2.5
+                AQI and PM2.5
             </a>
             values in Stockholm, year 2021
-         </p>
-         <div class="session">
+        </p>
+        <div class="session">
             <div>
-               <h2 style="display:inline" id="active-layer-label">AQI</h2>
-               <div style="display:none" id="unit"> &microg/m<sup>3</sup></div>
+                <h2 style="display:inline" id="active-layer-label">AQI</h2>
+                <div style="display:none" id="unit"> &microg/m<sup>3</sup></div>
             </div>
             <div id="gradientBar" class="row colors" style="display:block"></div>
             <div id="gradientLegend" class="row labels" style="display:none">
-               <div class="label">0</div>
-               <div class="label">5</div>
-               <div class="label">10</div>
-               <div class="label">15</div>
-               <div class="label">20</div>
-               <div class="label">25+</div>
+                <div class="label">0</div>
+                <div class="label">5</div>
+                <div class="label">10</div>
+                <div class="label">15</div>
+                <div class="label">20</div>
+                <div class="label">25+</div>
             </div>
             <div id="AQIlegend">
-               <div class="box excellent"></div>
-               &nbspExcellent <br>
-               <div class="box good"></div>
-               &nbspGood <br>
-               <div class="box moderate"></div>
-               &nbspModerate <br>
-               <div class="box low"></div>
-               &nbspLow <br>
-               <div class="box poor"></div>
-               &nbspPoor <br>
+                <div class="box excellent"></div>
+                &nbspExcellent <br>
+                <div class="box good"></div>
+                &nbspGood <br>
+                <div class="box moderate"></div>
+                &nbspModerate <br>
+                <div class="box low"></div>
+                &nbspLow <br>
+                <div class="box poor"></div>
+                &nbspPoor <br>
             </div>
             <img id="slblegend" src="https://raw.githubusercontent.com/neon-code/AirNavi/main/slblegend.png" />
             <div id="trafficInfo" style="display:none">Highlighted roads suffer from high traffic</div>
-         </div>
-         <div class='session' id='sliderbar'>
+        </div>
+        <div class='session' id='sliderbar'>
             <h2>Date: <label id='active-date'>08/03/2021</label></h2>
             <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
-         </div>
-         <div class="session" id='polutant'>
+        </div>
+        <div class="session" id='polutant'>
             <h2>Pollutant type</h2>
             <div class="row" id="filters">
-               <input id="pm10button" type="radio" name="toggle" value="pm10button" checked="checked" />
-               <label for="pm10button">PM10</label>
-               <input id="pm25button" type="radio" name="toggle" value="pm25button" />
-               <label for="pm25button">PM2.5</label>
+                <input id="pm10button" type="radio" name="toggle" value="pm10button" checked="checked" />
+                <label for="pm10button">PM10</label>
+                <input id="pm25button" type="radio" name="toggle" value="pm25button" />
+                <label for="pm25button">PM2.5</label>
             </div>
-         </div>
-      </div>
-      <script>
-         var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
-         mapboxgl.accessToken =
-             'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
-         //set bounds
-         var bounds = [
-             [17.87084, 59.24744],
-             [18.27879, 59.40520]
-         ];
-         var map = new mapboxgl.Map({
-             container: 'map', // container id
-             style: 'mapbox://styles/mapbox/streets-v11', // style URL
-             center: [18.07030, 59.32495], // starting position [lng, lat]
-             zoom: 11, // starting zoom
-             maxBounds: bounds,
-             minZoom: 10,
-             maxZoom: 15
-         });
-         
-             map.loadImage(
-                 'https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png',
-                 // Add an image to use as a custom marker
-                 function (error, image) {
-                     if (error) throw error;
-                     map.addImage('custom-marker', image);
-                 });
-         
-         var selectedLayer = '';
-         
-         var layerChoices = ['pm10Historical','aqi', 'slb-aqi', 'pm2.5', 'slb-pm10'];
-         function setSelectedLayerVisible() {
-             if(selectedLayer != '') {
-             var visibileLayer = map.getLayoutProperty(selectedLayer, 'visibility');
-             map.setLayoutProperty(selectedLayer,'visibility','visible');
-             if(selectedLayer == 'pm10Historical') {
-                 
-                     map.setLayoutProperty('places','visibility','visible');
-         
-             }
-         }
-         
-         }
-         
-         
-         map.addControl(
-             new MapboxGeocoder({
-                 accessToken: mapboxgl.accessToken,
-                 mapboxgl: mapboxgl
-             })
-         );
-         // map.addControl(new mapboxgl.NavigationControl());
-         // Define a new navigation control.
-         var navigation = new mapboxgl.NavigationControl();
-         
-         var directions = new MapboxDirections({
-         accessToken: mapboxgl.accessToken,
-         unit: 'metric',
-         profile: 'mapbox/driving'
-         });
-         
-         
-         // Add zoom and rotation controls to the map.
-         //map.addControl(navigation, 'top-left');
-         // Remove zoom and rotation controls from the map.
-         
-         /*  map.addControl(
-             new MapboxDirections({
-                 accessToken: mapboxgl.accessToken
-             }),
-             'top-left'
-         );*/
-         
-         //Initialize locations from files
-         function fetchJSON(url) {
-             return fetch(url)
-                 .then(function (response) {
-                     return response.json();
-                 });
-         }
-         var mapData;
-         var uniqueDateTime = new Set();
-         var dateTimeArray = [];
-         var pm10filterDate = ['==', ['string', ['get', 'date']], '00/00/00'];
-         var selectedDate;
-         var propertiesData = [];
-         
-    
-         
-         function onMapLoad() {  addMarkerSource();
-             addMarkerLayer();
-             addRasterSource();
-             addRasterLayer();
-             // addRoadsSource();
-             // addRoadsLayer();
-             addpm25Raster();
-             addPm25Layer();
-         
-             addpm10Raster();
-             addPm10Layer();
-             addAqiSlbRaster();
-             addAqiSlbLayer();
-            
-             map.setLayoutProperty('places','visibility','none');
-         
-             //Fetching file for heatmap data
-             map.addSource('sthlm', {
-                 type: 'geojson',
-                 data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson'
-             });
-         
-             //Fetching file for dates
-             var mapDataPromise = fetchJSON(
-                     'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson')
-                 .then(function (data) {
-                     mapData = data;
-                     data.features.forEach(function (feature) {
-                         uniqueDateTime.add(feature.properties.date);
-                     });
-                     dateTimeArray = [...uniqueDateTime];
-                     pm10filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[0]];
-                     //Add PM history layers
-                     addHistoricalPm10Layer();
-                     addHistoricalPm25Layer();
-         
-                     // update Date filter when the slider is dragged
-                     document
-                         .getElementById('slider')
-                         .addEventListener('input', function (e) {
-                             selecteddate = parseInt(e.target.value);
-                             // update the map
-                             pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
-                                 dateTimeArray.length - 1 - selecteddate]];
-                             map.setFilter('pm10Historical', ['all', pm10filterdate]);
-                             map.setFilter('pm25Historical', ['all', pm10filterdate]);
-                             //Update slider date
-                             document.getElementById('active-date').innerText = dateTimeArray[
-                                 dateTimeArray.length - 1 - selecteddate];
-                         });
-         
-                     //Update when pollutant type is selected
-                     document.getElementById('filters').addEventListener('change', function (e) {
-                         var filterpollutant = e.target.value;
-         
-                         if (filterpollutant === 'pm10button') {
-                             map.setLayoutProperty('pm10Historical', 'visibility', 'visible');
-                             map.setLayoutProperty('pm25Historical', 'visibility', 'none');
-                         } else {
-                             map.setLayoutProperty('pm10Historical', 'visibility', 'none');
-                             map.setLayoutProperty('pm25Historical', 'visibility', 'visible');
-                         }
-                     });
-                 });
-         
-         }
-         map.on("load", function () {
-              addMarkerSource();
-             addMarkerLayer();
-             addRasterSource();
-             addRasterLayer();
-             // addRoadsSource();
-             // addRoadsLayer();
-             addpm25Raster();
-             addPm25Layer();
-         
-             addpm10Raster();
-             addPm10Layer();
-             addAqiSlbRaster();
-             addAqiSlbLayer();
-            
-             map.setLayoutProperty('places','visibility','none');
-         
-             //Fetching file for heatmap data
-             map.addSource('sthlm', {
-                 type: 'geojson',
-                 data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson'
-             });
-         
-             //Fetching file for dates
-             var mapDataPromise = fetchJSON(
-                     'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson')
-                 .then(function (data) {
-                     mapData = data;
-                     data.features.forEach(function (feature) {
-                         uniqueDateTime.add(feature.properties.date);
-                     });
-                     dateTimeArray = [...uniqueDateTime];
-                     pm10filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[0]];
-                     //Add PM history layers
-                     addHistoricalPm10Layer();
-                     addHistoricalPm25Layer();
-         
-                     // update Date filter when the slider is dragged
-                     document
-                         .getElementById('slider')
-                         .addEventListener('input', function (e) {
-                             selecteddate = parseInt(e.target.value);
-                             // update the map
-                             pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
-                                 dateTimeArray.length - 1 - selecteddate]];
-                             map.setFilter('pm10Historical', ['all', pm10filterdate]);
-                             map.setFilter('pm25Historical', ['all', pm10filterdate]);
-                             //Update slider date
-                             document.getElementById('active-date').innerText = dateTimeArray[
-                                 dateTimeArray.length - 1 - selecteddate];
-                         });
-         
-                     //Update when pollutant type is selected
-                     document.getElementById('filters').addEventListener('change', function (e) {
-                         var filterpollutant = e.target.value;
-         
-                         if (filterpollutant === 'pm10button') {
-                             map.setLayoutProperty('pm10Historical', 'visibility', 'visible');
-                             map.setLayoutProperty('pm25Historical', 'visibility', 'none');
-                         } else {
-                             map.setLayoutProperty('pm10Historical', 'visibility', 'none');
-                             map.setLayoutProperty('pm25Historical', 'visibility', 'visible');
-                         }
-                     });
-                 });
-         });
-         
-         map.on('load', function() {
-         console.log('A load event occurred.');
-         });
-         
-            
-         
-         //Breezometer AQI
-         function addRasterSource() {
-             map.addSource("breezometer-tiles", {
-                 type: "raster",
-                 tiles: [
-                     `https://tiles.breezometer.com/v1/air-quality/breezometer-aqi/current-conditions/{z}/{x}/{y}.png?key=${apiKey}` //
-                 ],
-                 tileSize: 256,
-                 maxzoom: 8
-             });
-         }
-         
-         function addRasterLayer() {
-             map.addLayer({
-                     id: "aqi",
-                     type: "raster",
-                     source: "breezometer-tiles",
-                     minzoom: 0,
-                     maxzoom: 22,
-                     'layout': {
-                         // make layer visible by default
-                         'visibility': 'none'
-                     },
-                     paint: {
-                         "raster-opacity": 0.6
-                     }
-                 },
-                 "admin-1-boundary-bg"
-             );
-         }
-         
-         //SLB PM10
-         function addpm10Raster() {
-             map.addSource('wmsPM10Source', {
-                 'type': 'raster',
-                 // use the tiles option to specify a WMS tile source URL
-                 // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
-                 'tiles': [
-                     'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=pm10_d01&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=1024&height=1024&crs=EPSG%3A3857&bbox={bbox-epsg-3857}'
-                 ],
-                 'tileSize': 512
-             });
-         }
-         
-         function addPm10Layer() {
-             map.addLayer({
-                     'id': 'slb-pm10',
-                     'type': 'raster',
-                     'source': 'wmsPM10Source',
-         
-                     layout: {
-                         "visibility": "none"
-                     },
-                     paint: {
-                         "raster-opacity": 0.6
-                     }
-         
-                 }
-                 //'aeroway-line'
-             );
-         }
-         
-         //SLB AQI
-         function addAqiSlbRaster() {
-             map.addSource('aqiSlbSource', {
-                 'type': 'raster',
-                 // use the tiles option to specify a WMS tile source URL
-                 // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
-                 'tiles': [
-                     'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=aqhi_d01&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=256&height=256&crs=EPSG%3A3857&bbox={bbox-epsg-3857}'
-                 ],
-                 'tileSize': 256
-             });
-         }
-         
-         function addAqiSlbLayer() {
-             map.addLayer({
-                     'id': 'slb-aqi',
-                     'type': 'raster',
-                     'source': 'aqiSlbSource',
-         
-                     layout: {
-                         "visibility": "none"
-                     },
-                     paint: {
-                         "raster-opacity": 0.6
-                     }
-         
-                 }
-                 //'aeroway-line'
-             );
-         }
-         
-         //Breezometer Roads
-         function addRoadsSource() {
-             map.addSource("roads", {
-                 type: "vector",
-                 tiles: [
-                     `https://tiles.breezometer.com/v1/air-quality/traffic-pollution/current-conditions/{z}/{x}/{y}.pbf?key=${apiKey}`
-                 ],
-                 minzoom: 0,
-                 maxzoom: 10
-             });
-         }
-         
-         function addRoadsLayer() {
-             map.addLayer({
-                     id: "traffic",
-                     source: "roads",
-                     "source-layer": "brz-roads",
-                     type: "line",
-                     layout: {
-                         "line-cap": "round",
-                         "visibility": "none"
-                     },
-                     minzoom: 3,
-                     maxzoom: 24
-                 },
-                 "admin-1-boundary-bg"
-             );
-         }
-         
-         //Breezometer PM25
-         function addpm25Raster() {
-             map.addSource("breezometer-tiles-pm25", {
-                 type: "raster",
-                 tiles: [
-                     `https://tiles.breezometer.com/v1/air-quality/pm25/current-conditions/{z}/{x}/{y}.png?key=${apiKey}`
-                 ],
-                 tileSize: 256,
-                 maxzoom: 8
-             });
-         }
-         
-         function addPm25Layer() {
-             map.addLayer({
-                     id: "pm2.5",
-                     type: "raster",
-                     source: "breezometer-tiles-pm25",
-                     minzoom: 0,
-                     maxzoom: 22,
-                     layout: {
-                         "visibility": "none"
-                     },
-                     paint: {
-                         "raster-opacity": 0.6
-                     }
-                 },
-                 "admin-1-boundary-bg"
-             );
-         }
-         
-         //History PM10
-         function addHistoricalPm10Layer() {
-             //Heatmap
-             map.addLayer({
-                 id: 'pm10Historical',
-                 type: 'heatmap',
-                 source: 'sthlm',
-                 maxzoom: 20,
-                 layout: {
-                     "visibility": "none"
-                 },
-                 paint: {
-                     // increase weight as diameter breast height increases
-                     'heatmap-weight': {
-                         property: 'pm10',
-                         type: 'exponential',
-                         stops: [
-                             [1, 0],
-                             [80, 1]
-                         ]
-                     },
-                     // increase intensity as zoom level increases
-                     'heatmap-intensity': {
-                         stops: [
-                             [5, 1],
-                             [18, 2.2]
-                         ]
-                     },
-                     // assign color values be applied to points depending on their density
-                     'heatmap-color': [
-                         'interpolate',
-                         ['linear'],
-                         ['heatmap-density'],
-                         0.0, 'rgba(0,222,239,0)',
-                         0.01, '#1cabf3',
-                         0.04, '#4cc54e',
-                         0.05, '#ffffb2',
-                         0.09, '#fecc5c',
-                         0.2, '#fd8d3c',
-                         0.26, '#e31a1c',
-                         0.8, '#A00000'
-                     ],
-                     // increase radius as zoom increases
-                     'heatmap-radius': {
-                         stops: [
-                             [7, 3],
-                             [18, 180]
-                         ]
-                     },
-                     // decrease opacity to transition into the circle layer
-                     'heatmap-opacity': {
-                         default: 0.5,
-                         stops: [
-                             [14, 0.6],
-                             [20, 0.3]
-                         ]
-                     },
-                 }
-             });
-         }
-         
-         //History PM2.5
-         function addHistoricalPm25Layer() {
-             //Heatmap
-             map.addLayer({
-                 id: 'pm25Historical',
-                 type: 'heatmap',
-                 source: 'sthlm',
-                 maxzoom: 20,
-                 layout: {
-                     "visibility": "none"
-                 },
-                 paint: {
-                     // increase weight as diameter breast height increases
-                     'heatmap-weight': {
-                         property: 'pm25',
-                         type: 'exponential',
-                         stops: [
-                             [1, 0],
-                             [80, 1]
-                         ]
-                     },
-                     // increase intensity as zoom level increases
-                     'heatmap-intensity': {
-                         stops: [
-                             [5, 1],
-                             [18, 2.5]
-                         ]
-                     },
-                     // assign color values be applied to points depending on their density
-                     'heatmap-color': [
-                         'interpolate',
-                         ['linear'],
-                         ['heatmap-density'],
-                         0.0, 'rgba(0,222,239,0)',
-                         0.01, '#1cabf3',
-                         0.04, '#4cc54e',
-                         0.05, '#ffffb2',
-                         0.09, '#fecc5c',
-                         0.2, '#fd8d3c',
-                         0.26, '#e31a1c',
-                         0.8, '#A00000'
-                     ],
-                     // increase radius as zoom increases
-                     'heatmap-radius': {
-                         stops: [
-                             [7, 3],
-                             [18, 180]
-                         ]
-                     },
-                     // decrease opacity to transition into the circle layer
-                     'heatmap-opacity': {
-                         default: 0.5,
-                         stops: [
-                             [14, 0.6],
-                             [20, 0.3]
-                         ]
-                     },
-                 }
-             });
-         }
-         
-         
-         //Setting sliderbar, radios and legends to visibility 0
-         var barvisibility = document.getElementById("sliderbar");
-         barvisibility.style.display = "none";
-         document.getElementById("polutant").style.display = "none";
-         var selecteddate = 55;
-         document.getElementById("slblegend").style.display = "none";
-         
-         // enumerate ids of the toggleable layers
-         var toggleableLayerIds = ['aqi', 'slb-aqi', 'pm2.5', 'slb-pm10'];
-         var toggleableLayerNames = ['Air Quality Index (Realtime)', 'Air Quality Index - SLB (24hrs)',
-             'Particulate Matter 2.5 Levels (Realtime)',
-             'Particulate Matter 10 Levels - SLB (24hrs)'
-         ];
-         // set up the corresponding toggle button for each layer
-         for (var i = 0; i < toggleableLayerIds.length; i++) {
-             var id = toggleableLayerIds[i];
-         
-             //HTML trash
-             var link = document.createElement('a');
-             link.href = '#';
-             link.className = '';
-             link.textContent = toggleableLayerNames[i];
-             //Setting AQI layer as active
-             link.title = id;
-         
-             //Do something when layer is clicked
-             link.onclick = function (e) {
-                 var clickedLayer = this.title;
-                 e.preventDefault();
-                 e.stopPropagation();
-         var layerList = document.getElementById('baseLayerMenu');
-                         layerList.style.display = "inline";
-                         
-                 var navigateButton = document.getElementById('navigate');
-                 navigateButton.style.display = "inline";
-                 var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-                 map.setLayoutProperty('places','visibility','none');
-         
-                 // toggle layer visibility by changing the layout object's visibility property
-                 if (visibility === 'visible') {
-                     map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-                     this.className = '';
-                     selectedLayer = '';
-                 } else {
-                     //Disable all other layers
-                 selectedLayer = clickedLayer;
-         
-                     for (var i = 0; i < toggleableLayerIds.length; i++) {
-                         var id = toggleableLayerIds[i];
-                         map.setLayoutProperty(id, 'visibility', 'none');
-                         document.getElementsByTagName('a')[i].className = '';
-                     }
-                     //Disable the history layer as well
-                     map.setLayoutProperty('pm10Historical', 'visibility', 'none');
-                     map.setLayoutProperty('pm25Historical', 'visibility', 'none');
-                     document.getElementsByTagName('a')[i].className = '';
-         
-                     //Disable slider
-                     var barvisibility = document.getElementById("sliderbar");
-                     barvisibility.style.display = "none";
-                     document.getElementById("polutant").style.display = "none";
-         
-                     //setting this layer active   
-                     this.className = 'active';
-                     map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-                     document.getElementById('active-layer-label').innerText = this.title.toUpperCase();
-         
-                     // Display or disable unit and legend
-                     if (this.title.toUpperCase().localeCompare("AQI") == 0 ||
-                         this.title.toUpperCase().localeCompare("PM2.5") == 0) {
-                         //Hide gradient bar
-                         document.getElementById("gradientBar").style.display = "block";
-                         if (this.title.toUpperCase().localeCompare("AQI") == 0) {
-                             //Hide values under gradient
-                             document.getElementById("gradientLegend").style.display = "none";
-                             //Hide unit
-                             document.getElementById("unit").style.display = "none";
-                         } else {
-                             document.getElementById("gradientLegend").style.display = "inline";
-                             document.getElementById("unit").style.display = "inline";
-                         }
-                         // Display color coding for AQI
-                         document.getElementById("AQIlegend").style.display = "inline";
-                         //Hide traffic information
-                         document.getElementById("trafficInfo").style.display = "none";
-                         //Hide SLB legend
-                         document.getElementById("slblegend").style.display = "none";
-                     } else if (this.title.toUpperCase().localeCompare("SLB-AQI") == 0 ||
-                         this.title.toUpperCase().localeCompare("SLB-PM10") == 0) {
-                         //Hide unit
-                         document.getElementById("unit").style.display = "none";
-                         if (this.title.toUpperCase().localeCompare("SLB-PM10") == 0) {
-                             document.getElementById("unit").style.display = "inline";
-                         }
-                         //Hide gradient bar
-                         document.getElementById("gradientBar").style.display = "none";
-                         //Hide values under gradient
-                         document.getElementById("gradientLegend").style.display = "none";
-                         //Hide color coding for AQI
-                         document.getElementById("AQIlegend").style.display = "none";
-                         //Hide traffic information
-                         document.getElementById("trafficInfo").style.display = "none";
-                         //Show SLB legend
-                         document.getElementById("slblegend").style.display = "inline";
-                     } else if (this.title.toUpperCase().localeCompare("TRAFFIC") == 0) {
-                         document.getElementById("unit").style.display = "none";
-                         document.getElementById("gradientLegend").style.display = "none";
-                         document.getElementById("gradientBar").style.display = "none";
-                         document.getElementById("AQIlegend").style.display = "none";
-                         document.getElementById("slblegend").style.display = "none";
-                         document.getElementById("trafficInfo").style.display = "inline";
-                     } else {
-                         document.getElementById("unit").style.display = "inline";
-                         document.getElementById("AQIlegend").style.display = "none";
-                         document.getElementById("gradientLegend").style.display = "inline";
-                         document.getElementById("gradientBar").style.display = "block";
-                         document.getElementById("trafficInfo").style.display = "none";
-                     }
-                 }
-             };
-         
-             var layers = document.getElementById('menu');
-             layers.appendChild(link);
-         }
-         
-         //View History tab
-         var link = document.createElement('a');
-         link.href = '#';
-         link.className = '';
-         link.textContent = 'Historical Data For Particulate Matter';
-         link.title = 'viewHistory';
-         link.id = 'historical';
-         
-         link.onclick = function (e) {
-             var clickedLayer = 'pm10Historical'
-             document.getElementById("pm10button").checked = true;
-             e.preventDefault();
-             e.stopPropagation();
-         
-             //Get status of history layer visibility
-             var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-             var markerVisibility = map.getLayoutProperty('places', 'visibility');
-         
-         
-             // toggle history visibility by changing the layout object's visibility property
-             if (visibility === 'visible') {
-                 map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-                 map.setLayoutProperty('places','visibility','none');
-         
-                 var layerList = document.getElementById('baseLayerMenu');
-                 layerList.style.display = "inline";
+        </div>
+    </div>
+    <script>
+        var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
+        mapboxgl.accessToken =
+            'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
+        //set bounds
+        var bounds = [
+            [17.87084, 59.24744],
+            [18.27879, 59.40520]
+        ];
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/light-v10', // style URL
+            center: [18.07030, 59.32495], // starting position [lng, lat]
+            zoom: 11, // starting zoom
+            maxBounds: bounds,
+            minZoom: 10,
+            maxZoom: 15
+        });
 
-                 var navigateButton = document.getElementById('navigate');
-                 navigateButton.style.display = "inline";
-                 this.className = '';
-                                     selectedLayer = '';
-         
-         
-                 //Disable slider
-                 var barvisibility = document.getElementById("sliderbar");
-                 barvisibility.style.display = "none";
-                 document.getElementById("polutant").style.display = "none";
-         
-             } else {
-                             selectedLayer = clickedLayer;
-                    
+        map.loadImage(
+            'https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png',
+            // Add an image to use as a custom marker
+            function (error, image) {
+                if (error) throw error;
+                map.addImage('custom-marker', image);
+            });
+
+        var selectedLayer = '';
+
+        var layerChoices = ['pm10Historical', 'aqi', 'slb-aqi', 'pm2.5', 'slb-pm10'];
+
+        function setSelectedLayerVisible() {
+            if (selectedLayer != '') {
+                var visibileLayer = map.getLayoutProperty(selectedLayer, 'visibility');
+                map.setLayoutProperty(selectedLayer, 'visibility', 'visible');
+                if (selectedLayer == 'pm10Historical') {
+
+                    map.setLayoutProperty('places', 'visibility', 'visible');
+
+                }
+            }
+
+        }
+
+
+        map.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+            })
+        );
+        // map.addControl(new mapboxgl.NavigationControl());
+        // Define a new navigation control.
+        var navigation = new mapboxgl.NavigationControl();
+
+        var directions = new MapboxDirections({
+            accessToken: mapboxgl.accessToken,
+            unit: 'metric',
+            profile: 'mapbox/driving'
+        });
+
+
+        // Add zoom and rotation controls to the map.
+        //map.addControl(navigation, 'top-left');
+        // Remove zoom and rotation controls from the map.
+
+        /*  map.addControl(
+            new MapboxDirections({
+                accessToken: mapboxgl.accessToken
+            }),
+            'top-left'
+        );*/
+
+        //Initialize locations from files
+        function fetchJSON(url) {
+            return fetch(url)
+                .then(function (response) {
+                    return response.json();
+                });
+        }
+        var mapData;
+        var uniqueDateTime = new Set();
+        var dateTimeArray = [];
+        var pm10filterDate = ['==', ['string', ['get', 'date']], '00/00/00'];
+        var selectedDate;
+        var propertiesData = [];
+
+
+
+        function onMapLoad() {
+            addMarkerSource();
+            addMarkerLayer();
+            addRasterSource();
+            addRasterLayer();
+            // addRoadsSource();
+            // addRoadsLayer();
+            addpm25Raster();
+            addPm25Layer();
+
+            addpm10Raster();
+            addPm10Layer();
+            addAqiSlbRaster();
+            addAqiSlbLayer();
+
+            map.setLayoutProperty('places', 'visibility', 'none');
+
+            //Fetching file for heatmap data
+            map.addSource('sthlm', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson'
+            });
+
+            //Fetching file for dates
+            var mapDataPromise = fetchJSON(
+                    'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson')
+                .then(function (data) {
+                    mapData = data;
+                    data.features.forEach(function (feature) {
+                        uniqueDateTime.add(feature.properties.date);
+                    });
+                    dateTimeArray = [...uniqueDateTime];
+                    pm10filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[0]];
+                    //Add PM history layers
+                    addHistoricalPm10Layer();
+                    addHistoricalPm25Layer();
+
+                    // update Date filter when the slider is dragged
+                    document
+                        .getElementById('slider')
+                        .addEventListener('input', function (e) {
+                            selecteddate = parseInt(e.target.value);
+                            // update the map
+                            pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
+                                dateTimeArray.length - 1 - selecteddate]];
+                            map.setFilter('pm10Historical', ['all', pm10filterdate]);
+                            map.setFilter('pm25Historical', ['all', pm10filterdate]);
+                            //Update slider date
+                            document.getElementById('active-date').innerText = dateTimeArray[
+                                dateTimeArray.length - 1 - selecteddate];
+                        });
+
+                    //Update when pollutant type is selected
+                    document.getElementById('filters').addEventListener('change', function (e) {
+                        var filterpollutant = e.target.value;
+
+                        if (filterpollutant === 'pm10button') {
+                            map.setLayoutProperty('pm10Historical', 'visibility', 'visible');
+                            map.setLayoutProperty('pm25Historical', 'visibility', 'none');
+                        } else {
+                            map.setLayoutProperty('pm10Historical', 'visibility', 'none');
+                            map.setLayoutProperty('pm25Historical', 'visibility', 'visible');
+                        }
+                    });
+                });
+
+        }
+        map.on("load", function () {
+            addMarkerSource();
+            addMarkerLayer();
+            addRasterSource();
+            addRasterLayer();
+            // addRoadsSource();
+            // addRoadsLayer();
+            addpm25Raster();
+            addPm25Layer();
+
+            addpm10Raster();
+            addPm10Layer();
+            addAqiSlbRaster();
+            addAqiSlbLayer();
+
+            map.setLayoutProperty('places', 'visibility', 'none');
+
+            //Fetching file for heatmap data
+            map.addSource('sthlm', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson'
+            });
+
+            //Fetching file for dates
+            var mapDataPromise = fetchJSON(
+                    'https://raw.githubusercontent.com/neon-code/OSMtest/main/sthlm.geojson')
+                .then(function (data) {
+                    mapData = data;
+                    data.features.forEach(function (feature) {
+                        uniqueDateTime.add(feature.properties.date);
+                    });
+                    dateTimeArray = [...uniqueDateTime];
+                    pm10filterDate = ['==', ['string', ['get', 'date']], dateTimeArray[0]];
+                    //Add PM history layers
+                    addHistoricalPm10Layer();
+                    addHistoricalPm25Layer();
+
+                    // update Date filter when the slider is dragged
+                    document
+                        .getElementById('slider')
+                        .addEventListener('input', function (e) {
+                            selecteddate = parseInt(e.target.value);
+                            // update the map
+                            pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
+                                dateTimeArray.length - 1 - selecteddate]];
+                            map.setFilter('pm10Historical', ['all', pm10filterdate]);
+                            map.setFilter('pm25Historical', ['all', pm10filterdate]);
+                            //Update slider date
+                            document.getElementById('active-date').innerText = dateTimeArray[
+                                dateTimeArray.length - 1 - selecteddate];
+                        });
+
+                    //Update when pollutant type is selected
+                    document.getElementById('filters').addEventListener('change', function (e) {
+                        var filterpollutant = e.target.value;
+
+                        if (filterpollutant === 'pm10button') {
+                            map.setLayoutProperty('pm10Historical', 'visibility', 'visible');
+                            map.setLayoutProperty('pm25Historical', 'visibility', 'none');
+                            document.getElementById('active-layer-label').innerText = 'PM10';
+                        } else {
+                            map.setLayoutProperty('pm10Historical', 'visibility', 'none');
+                            map.setLayoutProperty('pm25Historical', 'visibility', 'visible');
+                            document.getElementById('active-layer-label').innerText = 'PM2.5';
+                        }
+                    });
+                });
+        });
+
+        map.on('load', function () {
+            console.log('A load event occurred.');
+        });
+
+
+
+        //Breezometer AQI
+        function addRasterSource() {
+            map.addSource("breezometer-tiles", {
+                type: "raster",
+                tiles: [
+                    `https://tiles.breezometer.com/v1/air-quality/breezometer-aqi/current-conditions/{z}/{x}/{y}.png?key=${apiKey}` //
+                ],
+                tileSize: 256,
+                maxzoom: 8
+            });
+        }
+
+        function addRasterLayer() {
+            map.addLayer({
+                    id: "aqi",
+                    type: "raster",
+                    source: "breezometer-tiles",
+                    minzoom: 0,
+                    maxzoom: 22,
+                    'layout': {
+                        // make layer visible by default
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        "raster-opacity": 0.6
+                    }
+                },
+                "admin-1-boundary-bg"
+            );
+        }
+
+        //SLB PM10
+        function addpm10Raster() {
+            map.addSource('wmsPM10Source', {
+                'type': 'raster',
+                // use the tiles option to specify a WMS tile source URL
+                // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
+                'tiles': [
+                    'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=pm10_d01&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=1024&height=1024&crs=EPSG%3A3857&bbox={bbox-epsg-3857}'
+                ],
+                'tileSize': 512
+            });
+        }
+
+        function addPm10Layer() {
+            map.addLayer({
+                    'id': 'slb-pm10',
+                    'type': 'raster',
+                    'source': 'wmsPM10Source',
+
+                    layout: {
+                        "visibility": "none"
+                    },
+                    paint: {
+                        "raster-opacity": 0.6
+                    }
+
+                }
+                //'aeroway-line'
+            );
+        }
+
+        //SLB AQI
+        function addAqiSlbRaster() {
+            map.addSource('aqiSlbSource', {
+                'type': 'raster',
+                // use the tiles option to specify a WMS tile source URL
+                // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
+                'tiles': [
+                    'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=aqhi_d01&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=256&height=256&crs=EPSG%3A3857&bbox={bbox-epsg-3857}'
+                ],
+                'tileSize': 256
+            });
+        }
+
+        function addAqiSlbLayer() {
+            map.addLayer({
+                    'id': 'slb-aqi',
+                    'type': 'raster',
+                    'source': 'aqiSlbSource',
+
+                    layout: {
+                        "visibility": "none"
+                    },
+                    paint: {
+                        "raster-opacity": 0.6
+                    }
+
+                }
+                //'aeroway-line'
+            );
+        }
+
+        //Breezometer Roads
+        function addRoadsSource() {
+            map.addSource("roads", {
+                type: "vector",
+                tiles: [
+                    `https://tiles.breezometer.com/v1/air-quality/traffic-pollution/current-conditions/{z}/{x}/{y}.pbf?key=${apiKey}`
+                ],
+                minzoom: 0,
+                maxzoom: 10
+            });
+        }
+
+        function addRoadsLayer() {
+            map.addLayer({
+                    id: "traffic",
+                    source: "roads",
+                    "source-layer": "brz-roads",
+                    type: "line",
+                    layout: {
+                        "line-cap": "round",
+                        "visibility": "none"
+                    },
+                    minzoom: 3,
+                    maxzoom: 24
+                },
+                "admin-1-boundary-bg"
+            );
+        }
+
+        //Breezometer PM25
+        function addpm25Raster() {
+            map.addSource("breezometer-tiles-pm25", {
+                type: "raster",
+                tiles: [
+                    `https://tiles.breezometer.com/v1/air-quality/pm25/current-conditions/{z}/{x}/{y}.png?key=${apiKey}`
+                ],
+                tileSize: 256,
+                maxzoom: 8
+            });
+        }
+
+        function addPm25Layer() {
+            map.addLayer({
+                    id: "pm2.5",
+                    type: "raster",
+                    source: "breezometer-tiles-pm25",
+                    minzoom: 0,
+                    maxzoom: 22,
+                    layout: {
+                        "visibility": "none"
+                    },
+                    paint: {
+                        "raster-opacity": 0.6
+                    }
+                },
+                "admin-1-boundary-bg"
+            );
+        }
+
+        //History PM10
+        function addHistoricalPm10Layer() {
+            //Heatmap
+            map.addLayer({
+                id: 'pm10Historical',
+                type: 'heatmap',
+                source: 'sthlm',
+                maxzoom: 20,
+                layout: {
+                    "visibility": "none"
+                },
+                paint: {
+                    // increase weight as diameter breast height increases
+                    'heatmap-weight': {
+                        property: 'pm10',
+                        type: 'exponential',
+                        stops: [
+                            [1, 0],
+                            [80, 1]
+                        ]
+                    },
+                    // increase intensity as zoom level increases
+                    'heatmap-intensity': {
+                        stops: [
+                            [5, 1],
+                            [18, 2.2]
+                        ]
+                    },
+                    // assign color values be applied to points depending on their density
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0.0, 'rgba(0,222,239,0)',
+                        0.01, '#1cabf3',
+                        0.04, '#4cc54e',
+                        0.05, '#ffffb2',
+                        0.09, '#fecc5c',
+                        0.2, '#fd8d3c',
+                        0.26, '#e31a1c',
+                        0.8, '#A00000'
+                    ],
+                    // increase radius as zoom increases
+                    'heatmap-radius': {
+                        stops: [
+                            [7, 3],
+                            [18, 180]
+                        ]
+                    },
+                    // decrease opacity to transition into the circle layer
+                    'heatmap-opacity': {
+                        default: 0.55,
+                        stops: [
+                            [14, 0.6],
+                            [20, 0.3]
+                        ]
+                    },
+                }
+            });
+        }
+
+        //History PM2.5
+        function addHistoricalPm25Layer() {
+            //Heatmap
+            map.addLayer({
+                id: 'pm25Historical',
+                type: 'heatmap',
+                source: 'sthlm',
+                maxzoom: 20,
+                layout: {
+                    "visibility": "none"
+                },
+                paint: {
+                    // increase weight as diameter breast height increases
+                    'heatmap-weight': {
+                        property: 'pm25',
+                        type: 'exponential',
+                        stops: [
+                            [1, 0],
+                            [80, 1]
+                        ]
+                    },
+                    // increase intensity as zoom level increases
+                    'heatmap-intensity': {
+                        stops: [
+                            [5, 1],
+                            [18, 2.5]
+                        ]
+                    },
+                    // assign color values be applied to points depending on their density
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0.0, 'rgba(0,222,239,0)',
+                        0.01, '#1cabf3',
+                        0.04, '#4cc54e',
+                        0.05, '#ffffb2',
+                        0.09, '#fecc5c',
+                        0.2, '#fd8d3c',
+                        0.26, '#e31a1c',
+                        0.8, '#A00000'
+                    ],
+                    // increase radius as zoom increases
+                    'heatmap-radius': {
+                        stops: [
+                            [7, 3],
+                            [18, 180]
+                        ]
+                    },
+                    // decrease opacity to transition into the circle layer
+                    'heatmap-opacity': {
+                        default: 0.55,
+                        stops: [
+                            [14, 0.6],
+                            [20, 0.3]
+                        ]
+                    },
+                }
+            });
+        }
+
+
+        //Setting sliderbar, radios and legends to visibility 0
+        var barvisibility = document.getElementById("sliderbar");
+        barvisibility.style.display = "none";
+        document.getElementById("polutant").style.display = "none";
+        var selecteddate = 55;
+        document.getElementById("slblegend").style.display = "none";
+
+        // enumerate ids of the toggleable layers
+        var toggleableLayerIds = ['aqi', 'slb-aqi', 'pm2.5', 'slb-pm10'];
+        var toggleableLayerNames = ['Air Quality Index (Realtime)', 'Air Quality Index - SLB (24hrs)',
+            'Particulate Matter 2.5 Levels (Realtime)',
+            'Particulate Matter 10 Levels - SLB (24hrs)'
+        ];
+        // set up the corresponding toggle button for each layer
+        for (var i = 0; i < toggleableLayerIds.length; i++) {
+            var id = toggleableLayerIds[i];
+
+            //HTML trash
+            var link = document.createElement('a');
+            link.href = '#';
+            link.className = '';
+            link.textContent = toggleableLayerNames[i];
+            //Setting AQI layer as active
+            link.title = id;
+
+            //Do something when layer is clicked
+            link.onclick = function (e) {
+                var clickedLayer = this.title;
+                e.preventDefault();
+                e.stopPropagation();
+                var layerList = document.getElementById('baseLayerMenu');
+                layerList.style.display = "inline";
+
+                var navigateButton = document.getElementById('navigate');
+                navigateButton.style.display = "inline";
+                var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+                map.setLayoutProperty('places', 'visibility', 'none');
+
+                // toggle layer visibility by changing the layout object's visibility property
+                if (visibility === 'visible') {
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                    this.className = '';
+                    selectedLayer = '';
+                } else {
+                    //Disable all other layers
+                    selectedLayer = clickedLayer;
+
                     for (var i = 0; i < toggleableLayerIds.length; i++) {
-                     var id = toggleableLayerIds[i];
-                     map.setLayoutProperty(id, 'visibility', 'none');
-                     document.getElementsByTagName('a')[i].className = '';
-                 }
-         
-                         var layerList = document.getElementById('baseLayerMenu');
-                         layerList.style.display = "none";
+                        var id = toggleableLayerIds[i];
+                        map.setLayoutProperty(id, 'visibility', 'none');
+                        document.getElementsByTagName('a')[i].className = '';
+                    }
+                    //Disable the history layer as well
+                    map.setLayoutProperty('pm10Historical', 'visibility', 'none');
+                    map.setLayoutProperty('pm25Historical', 'visibility', 'none');
+                    document.getElementsByTagName('a')[i].className = '';
 
-                 var navigateButton = document.getElementById('navigate');
-                 navigateButton.style.display = "none";
-         // var inputs = layerList.getElementsByTagName('input');
-           
-                     this.className = 'active';
-                 map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-                 map.setLayoutProperty('places','visibility','visible');
-         
-                 document.getElementById('active-layer-label').innerText = 'PM10';
-         
-                 //Display slider
-                 var barvisibility = document.getElementById("sliderbar");
-                 barvisibility.style.display = "block";
-                 document.getElementById("polutant").style.display = "block";
-         
-                 //Hide unit
-                 document.getElementById("unit").style.display = "inline";
-                 //Hide gradient bar
-                 document.getElementById("gradientBar").style.display = "none";
-                 //Hide values under gradient
-                 document.getElementById("gradientLegend").style.display = "none";
-                 //Hide color coding for AQI
-                 document.getElementById("AQIlegend").style.display = "none";
-                 //Hide traffic information
-                 document.getElementById("trafficInfo").style.display = "none";
-                 //Show SLB legend
-                 document.getElementById("slblegend").style.display = "inline";
-         
-                 }
-                 
-                 //setting this layer active
-             
-         
-             
-         
-             //set map
-             map.setFilter('pm25Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -
-                 1 - selecteddate]]);
-             map.setFilter('pm10Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -
-                 1 - selecteddate]]);
-         }
-         
-         var layers = document.getElementById('menu');
-         layers.appendChild(link);
-         
-         function addMarkerLayer() {
-         
-         }
-         
-         function addMarkerSource() {
+                    //Disable slider
+                    var barvisibility = document.getElementById("sliderbar");
+                    barvisibility.style.display = "none";
+                    document.getElementById("polutant").style.display = "none";
+
+                    //setting this layer active   
+                    this.className = 'active';
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                    document.getElementById('active-layer-label').innerText = this.title.toUpperCase();
+
+                    // Display or disable unit and legend
+                    if (this.title.toUpperCase().localeCompare("AQI") == 0 ||
+                        this.title.toUpperCase().localeCompare("PM2.5") == 0) {
+                        //Hide gradient bar
+                        document.getElementById("gradientBar").style.display = "block";
+                        if (this.title.toUpperCase().localeCompare("AQI") == 0) {
+                            //Hide values under gradient
+                            document.getElementById("gradientLegend").style.display = "none";
+                            //Hide unit
+                            document.getElementById("unit").style.display = "none";
+                        } else {
+                            document.getElementById("gradientLegend").style.display = "inline";
+                            document.getElementById("unit").style.display = "inline";
+                        }
+                        // Display color coding for AQI
+                        document.getElementById("AQIlegend").style.display = "inline";
+                        //Hide traffic information
+                        document.getElementById("trafficInfo").style.display = "none";
+                        //Hide SLB legend
+                        document.getElementById("slblegend").style.display = "none";
+                    } else if (this.title.toUpperCase().localeCompare("SLB-AQI") == 0 ||
+                        this.title.toUpperCase().localeCompare("SLB-PM10") == 0) {
+                        //Hide unit
+                        document.getElementById("unit").style.display = "none";
+                        if (this.title.toUpperCase().localeCompare("SLB-PM10") == 0) {
+                            document.getElementById("unit").style.display = "inline";
+                        }
+                        //Hide gradient bar
+                        document.getElementById("gradientBar").style.display = "none";
+                        //Hide values under gradient
+                        document.getElementById("gradientLegend").style.display = "none";
+                        //Hide color coding for AQI
+                        document.getElementById("AQIlegend").style.display = "none";
+                        //Hide traffic information
+                        document.getElementById("trafficInfo").style.display = "none";
+                        //Show SLB legend
+                        document.getElementById("slblegend").style.display = "inline";
+                    } else if (this.title.toUpperCase().localeCompare("TRAFFIC") == 0) {
+                        document.getElementById("unit").style.display = "none";
+                        document.getElementById("gradientLegend").style.display = "none";
+                        document.getElementById("gradientBar").style.display = "none";
+                        document.getElementById("AQIlegend").style.display = "none";
+                        document.getElementById("slblegend").style.display = "none";
+                        document.getElementById("trafficInfo").style.display = "inline";
+                    } else {
+                        document.getElementById("unit").style.display = "inline";
+                        document.getElementById("AQIlegend").style.display = "none";
+                        document.getElementById("gradientLegend").style.display = "inline";
+                        document.getElementById("gradientBar").style.display = "block";
+                        document.getElementById("trafficInfo").style.display = "none";
+                    }
+                }
+            };
+
+            var layers = document.getElementById('menu');
+            layers.appendChild(link);
+        }
+
+        //View History tab
+        var link = document.createElement('a');
+        link.href = '#';
+        link.className = '';
+        link.textContent = 'Historical Data For Particulate Matter';
+        link.title = 'viewHistory';
+        link.id = 'historical';
+
+        link.onclick = function (e) {
+            var clickedLayer = 'pm10Historical'
+            document.getElementById("pm10button").checked = true;
+            e.preventDefault();
+            e.stopPropagation();
+
+            //Get status of history layer visibility
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            var markerVisibility = map.getLayoutProperty('places', 'visibility');
+
+
+            // toggle history visibility by changing the layout object's visibility property
+            if (visibility === 'visible') {
+                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                map.setLayoutProperty('places', 'visibility', 'none');
+
+                var layerList = document.getElementById('baseLayerMenu');
+                layerList.style.display = "inline";
+
+                var navigateButton = document.getElementById('navigate');
+                navigateButton.style.display = "inline";
+                this.className = '';
+                selectedLayer = '';
+
+
+                //Disable slider
+                var barvisibility = document.getElementById("sliderbar");
+                barvisibility.style.display = "none";
+                document.getElementById("polutant").style.display = "none";
+
+            } else {
+                selectedLayer = clickedLayer;
+
+                for (var i = 0; i < toggleableLayerIds.length; i++) {
+                    var id = toggleableLayerIds[i];
+                    map.setLayoutProperty(id, 'visibility', 'none');
+                    document.getElementsByTagName('a')[i].className = '';
+                }
+
+                var layerList = document.getElementById('baseLayerMenu');
+                layerList.style.display = "inline";
+
+                var navigateButton = document.getElementById('navigate');
+                navigateButton.style.display = "none";
+                // var inputs = layerList.getElementsByTagName('input');
+
+                this.className = 'active';
+                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                map.setLayoutProperty('places', 'visibility', 'visible');
+
+                document.getElementById('active-layer-label').innerText = 'PM10';
+
+                //Display slider
+                var barvisibility = document.getElementById("sliderbar");
+                barvisibility.style.display = "block";
+                document.getElementById("polutant").style.display = "block";
+
+                //Hide unit
+                document.getElementById("unit").style.display = "inline";
+                //Hide gradient bar
+                document.getElementById("gradientBar").style.display = "none";
+                //Hide values under gradient
+                document.getElementById("gradientLegend").style.display = "none";
+                //Hide color coding for AQI
+                document.getElementById("AQIlegend").style.display = "none";
+                //Hide traffic information
+                document.getElementById("trafficInfo").style.display = "none";
+                //Show SLB legend
+                document.getElementById("slblegend").style.display = "inline";
+
+            }
+
+            //setting this layer active
+
+
+
+
+            //set map
+            map.setFilter('pm25Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -
+                1 - selecteddate]]);
+            map.setFilter('pm10Historical', ['==', ['string', ['get', 'date']], dateTimeArray[dateTimeArray.length -
+                1 - selecteddate]]);
+        }
+
+        var layers = document.getElementById('menu');
+        layers.appendChild(link);
+
+        function addMarkerLayer() {
+
+        }
+
+        function addMarkerSource() {
             map.loadImage(
-                 'https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png',
-                 // Add an image to use as a custom marker
-                 function (error, image) {
-                     if (error) throw error;
-                     map.addImage('custom-marker', image);
-                     map.addSource('places-source', {
-                         'type': 'geojson',
-                         'data': {
-                             'type': 'FeatureCollection',
-                             'features': [{
-                                     'type': 'Feature',
-                                     'geometry': {
-                                         'type': 'Point',
-                                         'coordinates': [18.004651, 59.325755]
-                                     },
-                                     'properties': {
-                                         'title': 'Lilla Essingen',
-                                         'description': 'PM10 value etc.'
-                                     }
-                                 },
-                                 {
-                                     'type': 'Feature',
-                                     'geometry': {
-                                         'type': 'Point',
-                                         'coordinates': [18.05773847, 59.31691443]
-                                     },
-                                     'properties': {
-                                         'title': 'S&ouml;dermalm',
-                                         'description': 'PM10 value etc.'
-                                     }
-                                 },
-                                 {
-                                     'type': 'Feature',
-                                     'geometry': {
-                                         'type': 'Point',
-                                         'coordinates': [18.07721584, 59.31464363]
-                                     },
-                                     'properties': {
-                                         'title': 'Folkungagatan',
-                                         'description': 'PM10 value etc.'
-                                     }
-                                 },
-                                 {
-                                     'type': 'Feature',
-                                     'geometry': {
-                                         'type': 'Point',
-                                         'coordinates': [18.05827647, 59.34084657]
-                                     },
-                                     'properties': {
-                                         'title': 'Sveav&auml;gen',
-                                         'description': 'PM10 value etc.'
-                                     }
-                                 },
-                                 {
-                                     'type': 'Feature',
-                                     'geometry': {
-                                         'type': 'Point',
-                                         'coordinates': [18.04906448, 59.31722043]
-                                     },
-                                     'properties': {
-                                         'title': 'Hornsgatan',
-                                         'description': 'PM10 value etc.'
-                                     }
-                                 },
-                                 {
-                                     'type': 'Feature',
-                                     'geometry': {
-                                         'type': 'Point',
-                                         'coordinates': [18.03549986, 59.33716532]
-                                     },
-                                     'properties': {
-                                         'title': 'St. Eriksgatan',
-                                         'description': 'PM10 value etc.'
-                                     }
-                                 }
-                             ]
-                         }
-                     });
-                     map.addLayer({
-                         'id': 'places',
-                         'type': 'symbol',
-                         'source': 'places-source',
-                         'layout': {
-                             'icon-image': 'custom-marker',
-                             'icon-allow-overlap': true,
-                             'icon-size': 0.02,
-                             'visibility' : 'none'
-                         }
-                     });
-                 }
-                 
-                 );
-         }
-         
-         
-         var pm10Highest = 0;
-         var pm25Highest = 0;
-         
-         function getItemData(coords) {
-             pm10Highest = 0;
-             pm25Highest = 0;
-             var dataArray = mapData.features.filter(function (item) {
-                 return item.properties.date.toString() == dateTimeArray[dateTimeArray.length - 1 - selecteddate]
-                     .toString()
-             });
-             for (var i = 0; i < dataArray.length; i++) {
-                 if (dataArray[i].geometry.coordinates) {
-                     if (coords) {
-                         if (dataArray[i].geometry.coordinates[0].toFixed(4) == coords[0].toFixed(4) || dataArray[i]
-                             .geometry.coordinates[0].toFixed(5) == coords[0].toFixed(5)) {
-                             pm10Highest = dataArray[i].properties.pm10;
-                             pm25Highest = dataArray[i].properties.pm25;
-                         }
-                     }
-                 }
-         
-             }
-         
-             return {
-                 'pm10': pm10Highest,
-                 'pm25': pm25Highest
-             }
-         
-         
-         }
-         
-         
-         var popup = new mapboxgl.Popup({
-             closeButton: false,
-             closeOnClick: false
-         });
-         
-         var layerList = document.getElementById('baseLayerMenu');
-         var inputs = layerList.getElementsByTagName('input');
-         
-         function switchLayer(layer) {
-                         var layerId = layer.target.id;
-                        // removeDirectionsLayers();
-         
-         map.remove();
-         
-             if(layerId!='navigation') {
-             map = new mapboxgl.Map({
-             container: 'map', // container id
-             style: 'mapbox://styles/mapbox/' + layerId, // style URL
-             center: [18.07030, 59.32495], // starting position [lng, lat]
-             zoom: 11, // starting zoom
-             maxBounds: bounds,
-             minZoom: 10,
-             maxZoom: 15
-            
-         });
-             map.addControl(
-             new MapboxGeocoder({
-                 accessToken: mapboxgl.accessToken,
-                 mapboxgl: mapboxgl
-             })
-         );
-         // 
-         map.on('load', function() {
-         console.log('A load event occurred.');
-         onMapLoad();
-                             setSelectedLayerVisible();
+                'https://raw.githubusercontent.com/neon-code/AirNavi/main/info.png',
+                // Add an image to use as a custom marker
+                function (error, image) {
+                    if (error) throw error;
+                    map.addImage('custom-marker', image);
+                    map.addSource('places-source', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [{
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [18.004651, 59.325755]
+                                    },
+                                    'properties': {
+                                        'title': 'Lilla Essingen',
+                                        'description': 'PM10 value etc.'
+                                    }
+                                },
+                                {
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [18.05773847, 59.31691443]
+                                    },
+                                    'properties': {
+                                        'title': 'S&ouml;dermalm',
+                                        'description': 'PM10 value etc.'
+                                    }
+                                },
+                                {
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [18.07721584, 59.31464363]
+                                    },
+                                    'properties': {
+                                        'title': 'Folkungagatan',
+                                        'description': 'PM10 value etc.'
+                                    }
+                                },
+                                {
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [18.05827647, 59.34084657]
+                                    },
+                                    'properties': {
+                                        'title': 'Sveav&auml;gen',
+                                        'description': 'PM10 value etc.'
+                                    }
+                                },
+                                {
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [18.04906448, 59.31722043]
+                                    },
+                                    'properties': {
+                                        'title': 'Hornsgatan',
+                                        'description': 'PM10 value etc.'
+                                    }
+                                },
+                                {
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [18.03549986, 59.33716532]
+                                    },
+                                    'properties': {
+                                        'title': 'St. Eriksgatan',
+                                        'description': 'PM10 value etc.'
+                                    }
+                                }
+                            ]
+                        }
+                    });
+                    map.addLayer({
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places-source',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': true,
+                            'icon-size': 0.02,
+                            'visibility': 'none'
+                        }
+                    });
+                }
 
-         });
-         
-         map.on('mouseenter', 'places', function (e) {
-             // Change the cursor style as a UI indicator.
-             map.getCanvas().style.cursor = 'pointer';
-             var coordinates = e.features[0].geometry.coordinates.slice();
-         
-             if (document.getElementById("sliderbar").style.display === "block") {
-                 if (document.getElementById("pm10button").checked == true) {
-                     pmValue = getItemData(e.features[0].geometry.coordinates).pm10; 
-                      if(pmValue == '0') {
-                         pmValue = "Not Available"
-                      }
-                     var description = "<b>PM10: </b>" + pmValue;                } else
-                 if (document.getElementById("pm25button").checked == true) {
-         pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
-                      if(pmValue == '0') {
-                         pmValue = "Not Available"
-                      }
-                     var description = "<b>PM2.5: </b>" + pmValue;                } else {
-                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
-                 }
-             } else {
-                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
-             }
-         
-             // Ensure that if the map is zoomed out such that multiple
-             // copies of the feature are visible, the popup appears
-             // over the copy being pointed to.
-             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-             }
-         
-             // Populate the popup and set its coordinates
-             // based on the feature found.
-             popup.setLngLat(coordinates).setHTML(description).addTo(map);
-         });
-         
-         map.on('mouseleave', 'places', function () {
-             map.getCanvas().style.cursor = '';
-             popup.remove();
-         });
+            );
+        }
 
-         
-         }
-         
-         }
 
-         function navigateMap() {
+        var pm10Highest = 0;
+        var pm25Highest = 0;
+
+        function getItemData(coords) {
+            pm10Highest = 0;
+            pm25Highest = 0;
+            var dataArray = mapData.features.filter(function (item) {
+                return item.properties.date.toString() == dateTimeArray[dateTimeArray.length - 1 - selecteddate]
+                    .toString()
+            });
+            for (var i = 0; i < dataArray.length; i++) {
+                if (dataArray[i].geometry.coordinates) {
+                    if (coords) {
+                        if (dataArray[i].geometry.coordinates[0].toFixed(4) == coords[0].toFixed(4) || dataArray[i]
+                            .geometry.coordinates[0].toFixed(5) == coords[0].toFixed(5)) {
+                            pm10Highest = dataArray[i].properties.pm10;
+                            pm25Highest = dataArray[i].properties.pm25;
+                        }
+                    }
+                }
+
+            }
+
+            return {
+                'pm10': pm10Highest,
+                'pm25': pm25Highest
+            }
+
+
+        }
+
+
+        var popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+        });
+
+        var layerList = document.getElementById('baseLayerMenu');
+        var inputs = layerList.getElementsByTagName('input');
+
+        function switchLayer(layer) {
+            var layerId = layer.target.id;
+            // removeDirectionsLayers();
+
+            map.remove();
+
+            if (layerId != 'navigation') {
+                map = new mapboxgl.Map({
+                    container: 'map', // container id
+                    style: 'mapbox://styles/mapbox/' + layerId, // style URL
+                    center: [18.07030, 59.32495], // starting position [lng, lat]
+                    zoom: 11, // starting zoom
+                    maxBounds: bounds,
+                    minZoom: 10,
+                    maxZoom: 15
+
+                });
+                map.addControl(
+                    new MapboxGeocoder({
+                        accessToken: mapboxgl.accessToken,
+                        mapboxgl: mapboxgl
+                    })
+                );
+                // 
+                map.on('load', function () {
+                    console.log('A load event occurred.');
+                    onMapLoad();
+                    setSelectedLayerVisible();
+
+                });
+
+                map.on('mouseenter', 'places', function (e) {
+                    // Change the cursor style as a UI indicator.
+                    map.getCanvas().style.cursor = 'pointer';
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+
+                    if (document.getElementById("sliderbar").style.display === "block") {
+                        if (document.getElementById("pm10button").checked == true) {
+                            pmValue = getItemData(e.features[0].geometry.coordinates).pm10;
+                            if (pmValue == '0') {
+                                pmValue = "Not Available"
+                            }
+                            var description = "<b>PM10: </b>" + pmValue;
+                        } else
+                        if (document.getElementById("pm25button").checked == true) {
+                            pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
+                            if (pmValue == '0') {
+                                pmValue = "Not Available"
+                            }
+                            var description = "<b>PM2.5: </b>" + pmValue;
+                        } else {
+                            var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                        }
+                    } else {
+                        var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                    }
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(coordinates).setHTML(description).addTo(map);
+                });
+
+                map.on('mouseleave', 'places', function () {
+                    map.getCanvas().style.cursor = '';
+                    popup.remove();
+                });
+
+
+            }
+
+        }
+
+        function navigateMap() {
             map = new mapboxgl.Map({
-             container: 'map', // container id
-             style: 'mapbox://styles/mapbox/streets-v11', // style URL
-             center: [18.07030, 59.32495], // starting position [lng, lat]
-             zoom: 11, // starting zoom
-             maxBounds: bounds,
-             minZoom: 10,
-             
-         maxZoom: 15
-         
-         });
-                                  map.addControl(
-             new MapboxGeocoder({
-                 accessToken: mapboxgl.accessToken,
-                 mapboxgl: mapboxgl
-             })
-         );
-         // 
-                map.on('load', function() {
-         console.log('A load event occurred.');
-         onMapLoad();
-                             setSelectedLayerVisible();
+                container: 'map', // container id
+                style: 'mapbox://styles/mapbox/streets-v11', // style URL
+                center: [18.07030, 59.32495], // starting position [lng, lat]
+                zoom: 11, // starting zoom
+                maxBounds: bounds,
+                minZoom: 10,
 
-         });       //  addDirectionsLayers();
-                         map.addControl(directions, 'top-left');
-                             map.on('mouseenter', 'places', function (e) {
-             // Change the cursor style as a UI indicator.
-             map.getCanvas().style.cursor = 'pointer';
-             var coordinates = e.features[0].geometry.coordinates.slice();
-         
-             if (document.getElementById("sliderbar").style.display === "block") {
-                 if (document.getElementById("pm10button").checked == true) {
-                     pmValue = getItemData(e.features[0].geometry.coordinates).pm10; 
-                      if(pmValue == '0') {
-                         pmValue = "Not Available"
-                      }
-                     var description = "<b>PM10: </b>" + pmValue;
-                 } else
-                 if (document.getElementById("pm25button").checked == true) {
-                     pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
-                      if(pmValue == '0') {
-                         pmValue = "Not Available"
-                      }
-                     var description = "<b>PM2.5: </b>" + pmValue;
-                 } else {
-                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
-                 }
-             } else {
-                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
-             }
-         
-             // Ensure that if the map is zoomed out such that multiple
-             // copies of the feature are visible, the popup appears
-             // over the copy being pointed to.
-             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-             }
-         
-             // Populate the popup and set its coordinates
-             // based on the feature found.
-             popup.setLngLat(coordinates).setHTML(description).addTo(map);
-         });
-         
-         map.on('mouseleave', 'places', function () {
-             map.getCanvas().style.cursor = '';
-             popup.remove();
-         });
-         }
-         
-         for (var i = 0; i < inputs.length; i++) {
-             inputs[i].onclick = switchLayer;
-         }
-         
-         
-         
-         map.on('mouseenter', 'places', function (e) {
-             // Change the cursor style as a UI indicator.
-             map.getCanvas().style.cursor = 'pointer';
-             var coordinates = e.features[0].geometry.coordinates.slice();
-         
-             if (document.getElementById("sliderbar").style.display === "block") {
-                 if (document.getElementById("pm10button").checked == true) {
-                    pmValue = getItemData(e.features[0].geometry.coordinates).pm10; 
-                      if(pmValue == '0') {
-                         pmValue = "Not Available"
-                      }
-                     var description = "<b>PM10: </b>" + pmValue;
-                 } else
-                 if (document.getElementById("pm25button").checked == true) {
-                     pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
-                      if(pmValue == '0') {
-                         pmValue = "Not Available"
-                      }
-                     var description = "<b>PM2.5: </b>" + pmValue;
-                                     } else {
-                     var description = "Select <b>Historical Data for Particulate Matter</b> layer";
-                 }
-             } else {
-                 var description = "Select <b>Historical Data for Particulate Matter</b> layer";
-             }
-         
-             // Ensure that if the map is zoomed out such that multiple
-             // copies of the feature are visible, the popup appears
-             // over the copy being pointed to.
-             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-             }
-         
-             // Populate the popup and set its coordinates
-             // based on the feature found.
-             popup.setLngLat(coordinates).setHTML(description).addTo(map);
-         });
-         
-         map.on('mouseleave', 'places', function () {
-             map.getCanvas().style.cursor = '';
-             popup.remove();
-         });
-         
-         function setDescription() {
-         
-         }
-      </script>
-   </body>
+                maxZoom: 15
+
+            });
+            map.addControl(
+                new MapboxGeocoder({
+                    accessToken: mapboxgl.accessToken,
+                    mapboxgl: mapboxgl
+                })
+            );
+            // 
+            map.on('load', function () {
+                console.log('A load event occurred.');
+                onMapLoad();
+                setSelectedLayerVisible();
+
+            }); //  addDirectionsLayers();
+            map.addControl(directions, 'top-left');
+            map.on('mouseenter', 'places', function (e) {
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
+                var coordinates = e.features[0].geometry.coordinates.slice();
+
+                if (document.getElementById("sliderbar").style.display === "block") {
+                    if (document.getElementById("pm10button").checked == true) {
+                        pmValue = getItemData(e.features[0].geometry.coordinates).pm10;
+                        if (pmValue == '0') {
+                            pmValue = "Not Available"
+                        }
+                        var description = "<b>PM10: </b>" + pmValue;
+                    } else
+                    if (document.getElementById("pm25button").checked == true) {
+                        pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
+                        if (pmValue == '0') {
+                            pmValue = "Not Available"
+                        }
+                        var description = "<b>PM2.5: </b>" + pmValue;
+                    } else {
+                        var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                    }
+                } else {
+                    var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                }
+
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(coordinates).setHTML(description).addTo(map);
+            });
+
+            map.on('mouseleave', 'places', function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            });
+        }
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].onclick = switchLayer;
+        }
+
+
+
+        map.on('mouseenter', 'places', function (e) {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+            var coordinates = e.features[0].geometry.coordinates.slice();
+
+            if (document.getElementById("sliderbar").style.display === "block") {
+                if (document.getElementById("pm10button").checked == true) {
+                    pmValue = getItemData(e.features[0].geometry.coordinates).pm10;
+                    if (pmValue == '0') {
+                        pmValue = "Not Available"
+                    }
+                    var description = "<b>PM10: </b>" + pmValue;
+                } else
+                if (document.getElementById("pm25button").checked == true) {
+                    pmValue = getItemData(e.features[0].geometry.coordinates).pm25;
+                    if (pmValue == '0') {
+                        pmValue = "Not Available"
+                    }
+                    var description = "<b>PM2.5: </b>" + pmValue;
+                } else {
+                    var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+                }
+            } else {
+                var description = "Select <b>Historical Data for Particulate Matter</b> layer";
+            }
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup.setLngLat(coordinates).setHTML(description).addTo(map);
+        });
+
+        map.on('mouseleave', 'places', function () {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+
+        function setDescription() {
+
+        }
+    </script>
+</body>
+
 </html>
