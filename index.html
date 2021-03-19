@@ -410,7 +410,7 @@
         var bartimer;
 
 
-
+        //This function is to to reload all elements when map type is switched
         function onMapLoad() {
             addMarkerSource();
             addMarkerLayer();
@@ -448,25 +448,6 @@
                     addHistoricalPm10Layer();
                     addHistoricalPm25Layer();
 
-                    //Animate the bar
-                    function animateBar() {
-                        document.getElementById("slider").value = barvalue;
-
-                        selecteddate = parseInt(barvalue);
-                        // update the map
-                        pm10filterdate = ['==', ['string', ['get', 'date']], dateTimeArray[
-                            dateTimeArray.length - 1 - selecteddate]];
-                        map.setFilter('pm10Historical', ['all', pm10filterdate]);
-                        map.setFilter('pm25Historical', ['all', pm10filterdate]);
-                        //Update slider date
-                        document.getElementById('active-date').innerText = dateTimeArray[
-                            dateTimeArray.length - 1 - selecteddate];
-
-                        barvalue++;
-                        if (barvalue >= 56)
-                        barvalue = 0;
-                    }
-
                     // update Date filter when the slider is dragged
                     document
                         .getElementById('slider')
@@ -481,21 +462,6 @@
                             document.getElementById('active-date').innerText = dateTimeArray[
                                 dateTimeArray.length - 1 - selecteddate];
                         });
-
-                    //When button is clicked animate every 800ms
-                    document.getElementById("animate").addEventListener("click", function () {
-                        if (play == 0) {
-                            bartimer = setInterval(animateBar, 800);
-                            document.getElementById("animate").innerHTML = "Pause";
-                            play = 1;
-                            animateBar();
-                        } else {
-                            play = 0;
-                            clearInterval(bartimer);
-                            document.getElementById("animate").innerHTML = "Play";
-                        }
-                    });
-
 
                     //Update when pollutant type is selected
                     document.getElementById('filters').addEventListener('change', function (e) {
@@ -512,6 +478,8 @@
                 });
 
         }
+        
+        //This is the first map load
         map.on("load", function () {
             addMarkerSource();
             addMarkerLayer();
