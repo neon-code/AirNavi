@@ -37,6 +37,7 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(6px);
+            border-radius: 8px;
             padding: 10px;
             font-family: 'Open Sans', sans-serif;
             bottom: 25px;
@@ -69,7 +70,7 @@
             position: absolute;
             z-index: 1;
             right: 10px;
-            border-radius: 3px;
+            border-radius: 8px;
             width: 240px;
             border: 1px solid rgba(0, 0, 0, 0.4);
             font-family: 'Open Sans', sans-serif;
@@ -129,6 +130,7 @@
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
+            border-radius: 8px;
             bottom: 10px;
         }
 
@@ -229,8 +231,9 @@
             width: 60%;
             margin-left: 300px;
             padding: 10px 10px;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(2px);
+            border-radius: 8px;
             bottom: 20px;
         }
     </style>
@@ -315,7 +318,7 @@
     </div>
     <div class='sliderbar' id='sliderbar'>
         Date: <label id='active-date'>08/03/2021</label>
-        <button id="animate" style="display: inline; float:right; margin-bottom: 10px;">Play/Pause</button>
+        <button id="animate" style="float:right; border: none; margin: 8px; padding: 8px 8px; background: rgba(0, 153, 255, 0.5); border-radius: 4px;">Play/Pause</button>
         <input id='slider' class='row' type='range' min=0 max=55 step=1 value=55 />
     </div>
 
